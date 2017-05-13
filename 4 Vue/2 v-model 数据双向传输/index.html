@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<script src="https://static.runoob.com/assets/vue/1.0.11/vue.min.js"></script>
+</head>
+<body>
+<p><b>修改输入框的值，查看效果</b>：</p>
+<div id="app">
+  <p>{{* message}}</p>
+  <p>{{ message }}</p>
+  <!-- 字符串连接 -->
+  <p>{{ message + '官网地址：www.runoob.com' }}</p>
+  <!-- 字符串反转 -->
+  <p>{{ message.split('').reverse().join('') }}</p>
+  <input v-model="message">
+</div>
+<!-- JavaScript 代码需要放在尾部（指定的HTML元素之后） -->
+<script src="https://static.runoob.com/code/js/vueapp.js"></script>
+</body>
+</html>

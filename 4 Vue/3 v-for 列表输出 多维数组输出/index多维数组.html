@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<script src="https://static.runoob.com/assets/vue/1.0.11/vue.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+  <ul id="example-2">
+  <li v-for="item in items">
+    {{ parentMessage }} - {{ $index }} - {{ item.message }}
+  </li>
+</ul>
+<script>
+new Vue({
+  el: '#example-2',
+  data: {
+    parentMessage: '菜鸟教程官网',
+    items: [
+      { message: 'www.runoob.com' },
+      { message: 'www.w3cschool.cc' }
+    ]
+  }
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+1正整数 ，如果判断为正整数，则flag为true
+	var r = /^\+?[1-9][0-9]*$/;　　
+	String str = "123";
+	boolean flag=r.test(str);
+
+
+2，字母，数字，下划线 -                 
+let subcheck = new RegExp('^[a-zA-Z][a-zA-Z0-9_-]*$');
+urlcheck.test(this.editorHref)
+
+3,电话号码格式
+/\d{3}-\d{8}|\d{4}-\d{7}/
+
+4，手机号码格式
+/1[34578]\d{9}/

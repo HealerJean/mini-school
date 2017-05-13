@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<script src="vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+  <ul>
+    <li v-for="todo in todos">
+      {{ todo.text }}
+    </li>
+  </ul>
+</div>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    todos: [
+      { text: '菜鸟教程' },
+      { text: 'www.runoob.com' },
+      { text: 'www.w3cschool.cc' }
+    ]
+  }
+})
+</script>
+</body>
+</html>

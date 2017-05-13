@@ -1,0 +1,48 @@
+-- Function: t_account_resume_insert_trigger()
+
+-- DROP FUNCTION t_account_resume_insert_trigger();
+
+CREATE OR REPLACE FUNCTION t_account_resume_insert_trigger()
+  RETURNS trigger AS
+$BODY$  
+BEGIN  
+    IF ( NEW.type = 1001) THEN  
+        INSERT INTO t_account_resume_basic VALUES (NEW.*);  
+	ELSIF ( NEW.type = 2001) THEN  
+        INSERT INTO t_account_resume_edu VALUES (NEW.*);
+    ELSIF ( NEW.type = 3001) THEN  
+        INSERT INTO t_account_resume_reward VALUES (NEW.*);
+	ELSIF ( NEW.type = 3002) THEN  
+        INSERT INTO t_account_resume_certificate VALUES (NEW.*);    
+    ELSIF ( NEW.type = 5001) THEN  
+        INSERT INTO t_account_resume_work VALUES (NEW.*);
+	ELSIF ( NEW.type = 6001) THEN  
+        INSERT INTO t_account_resume_project VALUES (NEW.*);   
+    ELSIF ( NEW.type = 7001) THEN  
+        INSERT INTO t_account_resume_skill VALUES (NEW.*);
+	ELSIF ( NEW.type = 7002) THEN  
+        INSERT INTO t_account_resume_language VALUES (NEW.*);   
+    ELSIF ( NEW.type = 8001) THEN  
+        INSERT INTO t_account_resume_thesis VALUES (NEW.*);
+	ELSIF ( NEW.type = 9001) THEN  
+        INSERT INTO t_account_resume_book VALUES (NEW.*);   
+    ELSIF ( NEW.type = 1201) THEN  
+        INSERT INTO t_account_resume_club VALUES (NEW.*);
+	ELSIF ( NEW.type = 1301) THEN  
+        INSERT INTO t_account_resume_activity_contest VALUES (NEW.*);   
+    ELSIF ( NEW.type = 1401) THEN  
+        INSERT INTO t_account_resume_laboratory VALUES (NEW.*);
+	ELSIF ( NEW.type = 1501) THEN  
+        INSERT INTO t_account_resume_intention VALUES (NEW.*);
+	ELSIF ( NEW.type = 1701) THEN  
+        INSERT INTO t_account_resume_gpa VALUES (NEW.*);
+    ELSE  
+        INSERT INTO t_account_resume_other VALUES (NEW.*); 
+    END IF;  
+    RETURN NULL;  
+END;  
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION t_account_resume_insert_trigger()
+  OWNER TO postgres;

@@ -1,5 +1,0 @@
-1.迷你校项目
-http://git.minixiao.com/zhangyj/helloworld/wikis/git_access 
-
-2.spirng boot
-git commit -m "feat:zhangyujin fix #3"

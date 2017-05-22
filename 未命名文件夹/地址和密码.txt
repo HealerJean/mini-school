@@ -2,13 +2,4 @@
 http://git.minixiao.com/zhangyj/helloworld/wikis/git_access 
 
 2.spirng boot
-https://start.spring.io/
-
-3.账户和密码
-zhangyj@minixiao.com
-mnxzhang123
-
-
-fds
-4.小龙数据文件地址
-http://git
+git commit -m "feat:zhangyujin fix #3"

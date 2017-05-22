@@ -12,7 +12,3 @@ mnxzhang123
 fds
 4.小龙数据文件地址
 http://git
-密码：   mnxzhang123
-pop.ym.163.com
-smtp.ym.163.c
-分组：   开发组

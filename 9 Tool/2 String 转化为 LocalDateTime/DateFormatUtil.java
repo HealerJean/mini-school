@@ -37,6 +37,27 @@ public class DateFormatUtil {
             return  null;
     }
 
+
+    /**
+    * @Description 目前传来的日期的格式是 yyyy-MM-dd HH:mm:ss ，此时不能转化LocalDateTime，所以需要转化
+    * @Author HealerJean
+    * @CreateDate 2017/5/25 15:13
+    */
+
+    private LocalDateTime getLocalDateTime(String strDate) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = formatter.parse(strDate);
+            Instant instant = Instant.ofEpochMilli(date.getTime());
+            LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+            return localDateTime;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return  null;
+    }
+
+
     public static void main(String[] args) {
         DateFormatUtil dateFormatUtil = new DateFormatUtil();
         System.out.println(dateFormatUtil.getLocalDateTime("2017-04-04","yyyy-MM-dd"));

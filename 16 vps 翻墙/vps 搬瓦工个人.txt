@@ -1,0 +1,20 @@
+Operating system is currently being reinstalled, and it can take up to 15 minutes to complete.
+
+Once finished, you will receive an e-mail notification at mxzdhealer@gmail.com
+
+You will need a new root password to access your VPS: 
+gjfGPvUt8qmw
+
+New SSH Port: 
+28386
+
+
+
+
+
+IP 138.128.223.133
+用户名 root 
+密码 gjfGPvUt8qmw 
+SSH 端口 28386
+shadowrocket 自定义密码
+TYgy67^%43*&DKis

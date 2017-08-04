@@ -17,4 +17,5 @@ IP 138.128.223.133
 密码 gjfGPvUt8qmw 
 SSH 端口 28386
 shadowrocket 自定义密码
-TYgy67^%43*&DKis
+TYgy67^%43*&DKis 
+端口50505 

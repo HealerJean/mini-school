@@ -28,10 +28,11 @@ Operating system is currently being reinstalled, and it can take up to 15 minute
 Once finished, you will receive an e-mail notification at mxzdhealer@gmail.com
 
 You will need a new root password to access your VPS: 
-z7tFE62Uvi0s
+yC2MESC70seL
 
 New SSH Port: 
 27502
+
 
 176.122.155.186
 

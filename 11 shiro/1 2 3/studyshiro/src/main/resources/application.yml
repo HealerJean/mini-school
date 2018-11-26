@@ -1,0 +1,19 @@
+spring:
+#  thymeleaf:
+#    mode: LEGACYHTML5
+#    cache: false
+#  mvc:
+#    favicon:
+#      enabled: false
+  datasource:
+      url : jdbc:postgresql://localhost:5432/shiro?useUnicode=true&characterEncoding=UTF-8
+      username : postgres
+      password : 123456
+      driverClassName : org.postgresql.Driver
+  jpa:
+    database : postgresql
+    show-sql : true
+    hibernate:
+      ddl-auto : update
+    properties:
+      hibernate:

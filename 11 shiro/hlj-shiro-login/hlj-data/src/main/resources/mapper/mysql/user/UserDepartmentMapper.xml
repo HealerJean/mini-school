@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserDepartmentMapper">
+	<resultMap id="BaseResultMap" type="UserDepartment">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="ref_user_id" jdbcType="BIGINT" property="refUserId" />
+		<result column="ref_department_id" jdbcType="BIGINT" property="refDepartmentId" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<trim prefix="(" prefixOverrides="and" suffix=")">
+				<if test="refUserId != null and refUserId != ''">
+					and ref_user_id = #{refUserId,jdbcType=BIGINT}
+				</if>
+				<if test="refDepartmentId != null and refDepartmentId != ''">
+					and ref_department_id = #{refDepartmentId,jdbcType=BIGINT}
+				</if>
+				<if test="status != null">
+					and status = #{status,jdbcType=VARCHAR}
+				</if>
+			</trim>
+		</where>
+	</sql>
+	<sql id="Example_Set_Clause">
+		<set>
+			<trim suffixOverrides=",">
+				<if test="refUserId != null">
+					ref_user_id = #{refUserId,jdbcType=BIGINT},
+				</if>
+				<if test="refDepartmentId != null">
+					ref_department_id = #{refDepartmentId,jdbcType=BIGINT},
+				</if>
+				<if test="status != null">
+					status = #{status,jdbcType=VARCHAR},
+				</if>
+			</trim>
+		</set>
+	</sql>
+	<sql id="Base_Column_List">
+		id,
+		ref_user_id,
+		ref_department_id,
+		status
+	</sql>
+	<sql id="Base_Set_Clause">
+		<set>
+			<trim suffixOverrides=",">
+				ref_user_id = #{refUserId,jdbcType=BIGINT},
+				ref_department_id = #{refDepartmentId,jdbcType=BIGINT},
+				status = #{status,jdbcType=VARCHAR},
+			</trim>
+		</set>
+	</sql>
+	<sql id="Selective_Column_List">
+		ID,
+		<if test="refUserId != null">
+			ref_user_id,
+		</if>
+		<if test="refDepartmentId != null">
+			ref_department_id,
+		</if>
+		<if test="status != null">
+			status,
+		</if>
+	</sql>
+	<sql id="Base_Value_List">
+		#{id,jdbcType=BIGINT},
+		#{refUserId,jdbcType=BIGINT},
+		#{refDepartmentId,jdbcType=BIGINT},
+		#{status,jdbcType=VARCHAR},
+	</sql>
+	<sql id="Selective_Value_List">
+		#{id},
+		<if test="refUserId != null">
+			#{refUserId,jdbcType=BIGINT},
+		</if>
+		<if test="refDepartmentId != null">
+			#{refDepartmentId,jdbcType=BIGINT},
+		</if>
+		<if test="status != null">
+			#{status,jdbcType=VARCHAR},
+		</if>
+	</sql>
+
+	<select id="selectByExample" parameterType="UserDepartmentQuery" resultMap="BaseResultMap">
+		select
+		<trim suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		from user_department
+		<include refid="Example_Where_Clause" />
+		<!-- order by CREATE_DATE -->
+	</select>
+	<select id="selectByPrimaryKey" parameterType="Long" resultMap="BaseResultMap">
+		select
+		<trim suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		from user_department
+		where ID = #{id,jdbcType=SMALLINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="Long">
+		delete from user_department
+		where ID = #{id,jdbcType=SMALLINT}
+	</delete>
+	<delete id="deleteByExample" parameterType="UserDepartmentQuery">
+		delete from user_department
+		<include refid="Example_Where_Clause" />
+	</delete>
+	<insert id="insert" parameterType="UserDepartment">
+		insert into user_department
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<include refid="Base_Value_List" />
+		</trim>
+	</insert>
+	<insert id="insertSelective" parameterType="UserDepartment" useGeneratedKeys="true" keyProperty="id">
+		insert into user_department
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<include refid="Selective_Column_List" />
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<include refid="Selective_Value_List" />
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="UserDepartmentQuery" resultType="java.lang.Integer">
+		select count(*) from user_department
+		<include refid="Example_Where_Clause" />
+	</select>
+	<update id="updateByPrimaryKeySelective" parameterType="UserDepartment">
+		update user_department
+		<include refid="Example_Set_Clause" />
+		where ID = #{id,jdbcType=SMALLINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="UserDepartment">
+		update user_department
+		<include refid="Base_Set_Clause" />
+		where ID = #{id,jdbcType=SMALLINT}
+	</update>
+
+	<select id="selectPageByExample" parameterType="UserDepartmentQuery" resultMap="BaseResultMap">
+		select
+		<trim suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		from user_department
+		<include refid="Example_Where_Clause" />
+        <![CDATA[ limit #{startRow},#{endRow} ]]>
+  		<!-- order by CREATE_DATE -->
+	</select>
+</mapper>

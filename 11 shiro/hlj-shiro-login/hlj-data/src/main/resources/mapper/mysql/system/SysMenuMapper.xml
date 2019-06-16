@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysMenuMapper">
+	<resultMap id="BaseResultMap" type="SysMenu">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="ref_system_code" jdbcType="VARCHAR" property="refSystemCode" />
+		<result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
+		<result column="method" jdbcType="VARCHAR" property="method" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="pid" jdbcType="BIGINT" property="pid" />
+		<result column="pchain" jdbcType="VARCHAR" property="pchain" />
+		<result column="desc" jdbcType="VARCHAR" property="desc" />
+		<result column="sort" jdbcType="INTEGER" property="sort" />
+		<result column="icon" jdbcType="VARCHAR" property="icon" />
+		<result column="front_key" jdbcType="VARCHAR" property="frontKey" />
+		<result column="is_permission" jdbcType="VARCHAR" property="isPermission" />
+		<result column="menu_type" jdbcType="VARCHAR" property="menuType" />
+		<result column="create_user" jdbcType="BIGINT" property="createUser" />
+		<result column="create_name" jdbcType="VARCHAR" property="createName" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_user" jdbcType="BIGINT" property="updateUser" />
+		<result column="update_name" jdbcType="VARCHAR" property="updateName" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<trim prefix="(" prefixOverrides="and" suffix=")">
+				<if test="refSystemCode != null">
+					and ref_system_code = #{refSystemCode,jdbcType=VARCHAR}
+				</if>
+				<if test="menuName != null">
+					and menu_name = #{menuName,jdbcType=VARCHAR}
+				</if>
+				<if test="url != null">
+					and url = #{url,jdbcType=VARCHAR}
+				</if>
+				<if test="method != null">
+					and method = #{method,jdbcType=VARCHAR}
+				</if>
+				<if test="status != null">
+					and status = #{status,jdbcType=VARCHAR}
+				</if>
+				<if test="pid != null and pid != ''">
+					and pid = #{pid,jdbcType=BIGINT}
+				</if>
+				<if test="pchain != null">
+					and pchain = #{pchain,jdbcType=VARCHAR}
+				</if>
+				<if test="desc != null">
+					and desc = #{desc,jdbcType=VARCHAR}
+				</if>
+				<if test="sort != null and sort != ''">
+					and sort = #{sort,jdbcType=INTEGER}
+				</if>
+				<if test="icon != null">
+					and icon = #{icon,jdbcType=VARCHAR}
+				</if>
+				<if test="frontKey != null">
+					and front_key = #{frontKey,jdbcType=VARCHAR}
+				</if>
+				<if test="isPermission != null">
+					and is_permission = #{isPermission,jdbcType=VARCHAR}
+				</if>
+				<if test="menuType != null">
+					and menu_type = #{menuType,jdbcType=VARCHAR}
+				</if>
+				<if test="createUser != null and createUser != ''">
+					and create_user = #{createUser,jdbcType=BIGINT}
+				</if>
+				<if test="createName != null">
+					and create_name = #{createName,jdbcType=VARCHAR}
+				</if>
+				<if test="updateUser != null and updateUser != ''">
+					and update_user = #{updateUser,jdbcType=BIGINT}
+				</if>
+				<if test="updateName != null">
+					and update_name = #{updateName,jdbcType=VARCHAR}
+				</if>
+			</trim>
+		</where>
+	</sql>
+	<sql id="Example_Set_Clause">
+		<set>
+			<trim suffixOverrides=",">
+				<if test="refSystemCode != null">
+					ref_system_code = #{refSystemCode,jdbcType=VARCHAR},
+				</if>
+				<if test="menuName != null">
+					menu_name = #{menuName,jdbcType=VARCHAR},
+				</if>
+				<if test="url != null">
+					url = #{url,jdbcType=VARCHAR},
+				</if>
+				<if test="method != null">
+					method = #{method,jdbcType=VARCHAR},
+				</if>
+				<if test="status != null">
+					status = #{status,jdbcType=VARCHAR},
+				</if>
+				<if test="pid != null">
+					pid = #{pid,jdbcType=BIGINT},
+				</if>
+				<if test="pchain != null">
+					pchain = #{pchain,jdbcType=VARCHAR},
+				</if>
+				<if test="desc != null">
+					desc = #{desc,jdbcType=VARCHAR},
+				</if>
+				<if test="sort != null">
+					sort = #{sort,jdbcType=INTEGER},
+				</if>
+				<if test="icon != null">
+					icon = #{icon,jdbcType=VARCHAR},
+				</if>
+				<if test="frontKey != null">
+					front_key = #{frontKey,jdbcType=VARCHAR},
+				</if>
+				<if test="isPermission != null">
+					is_permission = #{isPermission,jdbcType=VARCHAR},
+				</if>
+				<if test="menuType != null">
+					menu_type = #{menuType,jdbcType=VARCHAR},
+				</if>
+				<if test="createUser != null">
+					create_user = #{createUser,jdbcType=BIGINT},
+				</if>
+				<if test="createName != null">
+					create_name = #{createName,jdbcType=VARCHAR},
+				</if>
+				<if test="updateUser != null">
+					update_user = #{updateUser,jdbcType=BIGINT},
+				</if>
+				<if test="updateName != null">
+					update_name = #{updateName,jdbcType=VARCHAR},
+				</if>
+				UPDATE_TIME = NOW(),
+			</trim>
+		</set>
+	</sql>
+	<sql id="Base_Column_List">
+		id,
+		ref_system_code,
+		menu_name,
+		url,
+		method,
+		status,
+		pid,
+		pchain,
+		desc,
+		sort,
+		icon,
+		front_key,
+		is_permission,
+		menu_type,
+		create_user,
+		create_name,
+		create_time,
+		update_user,
+		update_name,
+		update_time
+	</sql>
+	<sql id="Base_Set_Clause">
+		<set>
+			<trim suffixOverrides=",">
+				ref_system_code = #{refSystemCode,jdbcType=VARCHAR},
+				menu_name = #{menuName,jdbcType=VARCHAR},
+				url = #{url,jdbcType=VARCHAR},
+				method = #{method,jdbcType=VARCHAR},
+				status = #{status,jdbcType=VARCHAR},
+				pid = #{pid,jdbcType=BIGINT},
+				pchain = #{pchain,jdbcType=VARCHAR},
+				desc = #{desc,jdbcType=VARCHAR},
+				sort = #{sort,jdbcType=INTEGER},
+				icon = #{icon,jdbcType=VARCHAR},
+				front_key = #{frontKey,jdbcType=VARCHAR},
+				is_permission = #{isPermission,jdbcType=VARCHAR},
+				menu_type = #{menuType,jdbcType=VARCHAR},
+				create_user = #{createUser,jdbcType=BIGINT},
+				create_name = #{createName,jdbcType=VARCHAR},
+				update_user = #{updateUser,jdbcType=BIGINT},
+				update_name = #{updateName,jdbcType=VARCHAR},
+			</trim>
+		</set>
+	</sql>
+	<sql id="Selective_Column_List">
+		ID,
+		<if test="refSystemCode != null">
+			ref_system_code,
+		</if>
+		<if test="menuName != null">
+			menu_name,
+		</if>
+		<if test="url != null">
+			url,
+		</if>
+		<if test="method != null">
+			method,
+		</if>
+		<if test="status != null">
+			status,
+		</if>
+		<if test="pid != null">
+			pid,
+		</if>
+		<if test="pchain != null">
+			pchain,
+		</if>
+		<if test="desc != null">
+			desc,
+		</if>
+		<if test="sort != null">
+			sort,
+		</if>
+		<if test="icon != null">
+			icon,
+		</if>
+		<if test="frontKey != null">
+			front_key,
+		</if>
+		<if test="isPermission != null">
+			is_permission,
+		</if>
+		<if test="menuType != null">
+			menu_type,
+		</if>
+		<if test="createUser != null">
+			create_user,
+		</if>
+		<if test="createName != null">
+			create_name,
+		</if>
+		CREATE_TIME,
+		<if test="updateUser != null">
+			update_user,
+		</if>
+		<if test="updateName != null">
+			update_name,
+		</if>
+	</sql>
+	<sql id="Base_Value_List">
+		#{id,jdbcType=BIGINT},
+		#{refSystemCode,jdbcType=VARCHAR},
+		#{menuName,jdbcType=VARCHAR},
+		#{url,jdbcType=VARCHAR},
+		#{method,jdbcType=VARCHAR},
+		#{status,jdbcType=VARCHAR},
+		#{pid,jdbcType=BIGINT},
+		#{pchain,jdbcType=VARCHAR},
+		#{desc,jdbcType=VARCHAR},
+		#{sort,jdbcType=INTEGER},
+		#{icon,jdbcType=VARCHAR},
+		#{frontKey,jdbcType=VARCHAR},
+		#{isPermission,jdbcType=VARCHAR},
+		#{menuType,jdbcType=VARCHAR},
+		#{createUser,jdbcType=BIGINT},
+		#{createName,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateUser,jdbcType=BIGINT},
+		#{updateName,jdbcType=VARCHAR},
+		#{updateTime,jdbcType=TIMESTAMP},
+	</sql>
+	<sql id="Selective_Value_List">
+		#{id},
+		<if test="refSystemCode != null">
+			#{refSystemCode,jdbcType=VARCHAR},
+		</if>
+		<if test="menuName != null">
+			#{menuName,jdbcType=VARCHAR},
+		</if>
+		<if test="url != null">
+			#{url,jdbcType=VARCHAR},
+		</if>
+		<if test="method != null">
+			#{method,jdbcType=VARCHAR},
+		</if>
+		<if test="status != null">
+			#{status,jdbcType=VARCHAR},
+		</if>
+		<if test="pid != null">
+			#{pid,jdbcType=BIGINT},
+		</if>
+		<if test="pchain != null">
+			#{pchain,jdbcType=VARCHAR},
+		</if>
+		<if test="desc != null">
+			#{desc,jdbcType=VARCHAR},
+		</if>
+		<if test="sort != null">
+			#{sort,jdbcType=INTEGER},
+		</if>
+		<if test="icon != null">
+			#{icon,jdbcType=VARCHAR},
+		</if>
+		<if test="frontKey != null">
+			#{frontKey,jdbcType=VARCHAR},
+		</if>
+		<if test="isPermission != null">
+			#{isPermission,jdbcType=VARCHAR},
+		</if>
+		<if test="menuType != null">
+			#{menuType,jdbcType=VARCHAR},
+		</if>
+		<if test="createUser != null">
+			#{createUser,jdbcType=BIGINT},
+		</if>
+		<if test="createName != null">
+			#{createName,jdbcType=VARCHAR},
+		</if>
+		NOW(),
+		<if test="updateUser != null">
+			#{updateUser,jdbcType=BIGINT},
+		</if>
+		<if test="updateName != null">
+			#{updateName,jdbcType=VARCHAR},
+		</if>
+	</sql>
+
+	<select id="selectByExample" parameterType="SysMenuQuery" resultMap="BaseResultMap">
+		select
+		<trim suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		from sys_menu
+		<include refid="Example_Where_Clause" />
+		<!-- order by CREATE_DATE -->
+	</select>
+	<select id="selectByPrimaryKey" parameterType="Long" resultMap="BaseResultMap">
+		select
+		<trim suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		from sys_menu
+		where ID = #{id,jdbcType=SMALLINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="Long">
+		delete from sys_menu
+		where ID = #{id,jdbcType=SMALLINT}
+	</delete>
+	<delete id="deleteByExample" parameterType="SysMenuQuery">
+		delete from sys_menu
+		<include refid="Example_Where_Clause" />
+	</delete>
+	<insert id="insert" parameterType="SysMenu">
+		insert into sys_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<include refid="Base_Value_List" />
+		</trim>
+	</insert>
+	<insert id="insertSelective" parameterType="SysMenu" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<include refid="Selective_Column_List" />
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<include refid="Selective_Value_List" />
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="SysMenuQuery" resultType="java.lang.Integer">
+		select count(*) from sys_menu
+		<include refid="Example_Where_Clause" />
+	</select>
+	<update id="updateByPrimaryKeySelective" parameterType="SysMenu">
+		update sys_menu
+		<include refid="Example_Set_Clause" />
+		where ID = #{id,jdbcType=SMALLINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="SysMenu">
+		update sys_menu
+		<include refid="Base_Set_Clause" />
+		where ID = #{id,jdbcType=SMALLINT}
+	</update>
+
+	<select id="selectPageByExample" parameterType="SysMenuQuery" resultMap="BaseResultMap">
+		select
+		<trim suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		from sys_menu
+		<include refid="Example_Where_Clause" />
+        <![CDATA[ limit #{startRow},#{endRow} ]]>
+  		<!-- order by CREATE_DATE -->
+	</select>
+
+
+
+
+
+	<sql id="Example_Where_Like_Clause">
+		<where>
+			<trim prefix="(" prefixOverrides="and" suffix=")">
+				<if test="menuName != null and menuName != ''">
+					and menu_name LIKE CONCAT('%',#{menuName,jdbcType=VARCHAR},'%')
+				</if>
+				<if test="refSystemCode != null and refSystemCode != ''">
+					and ref_system_code = #{refSystemCode,jdbcType=VARCHAR}
+				</if>
+				<if test="url != null and url != ''">
+					and url = #{url,jdbcType=VARCHAR}
+				</if>
+				<if test="method != null and method != ''">
+					and method = #{url,jdbcType=VARCHAR}
+				</if>
+				<if test="status != null and status != ''">
+					and status = #{status,jdbcType=VARCHAR}
+				</if>
+				<if test="pid != null">
+					and pid = #{pid,jdbcType=BIGINT}
+				</if>
+				<if test="pchain != null and pchain != ''">
+					and pchain = #{pchain,jdbcType=VARCHAR}
+				</if>
+				<if test="desc != null and desc != ''">
+					and `desc` = #{`desc`,jdbcType=VARCHAR}
+				</if>
+				<if test="sort != null">
+					and sort = #{sort,jdbcType=INTEGER}
+				</if>
+				<if test="icon != null and icon != ''">
+					and icon = #{icon,jdbcType=VARCHAR}
+				</if>
+				<if test="frontKey != null and frontKey != ''">
+					and front_key = #{frontKey,jdbcType=VARCHAR},
+				</if>
+				<if test="isPermission != null and isPermission != ''">
+					and is_permission = #{isPermission,jdbcType=VARCHAR},
+				</if>
+				<if test="menuType != null and menuType != ''">
+					and menu_type = #{menuType,jdbcType=VARCHAR}
+				</if>
+				<if test="createUser != null and createUser != ''">
+					and create_user = #{createUser,jdbcType=BIGINT}
+				</if>
+				<if test="createName != null">
+					and create_name = #{createName,jdbcType=VARCHAR}
+				</if>
+				<if test="updateUser != null and updateUser != ''">
+					and update_user = #{updateUser,jdbcType=BIGINT}
+				</if>
+				<if test="updateName != null">
+					and update_name = #{updateName,jdbcType=VARCHAR}
+				</if>
+			</trim>
+		</where>
+	</sql>
+
+	<select id="countByExampleLike" parameterType="SysMenuQuery" resultType="java.lang.Integer">
+		select count(*) from sys_menu m
+		<include refid="Example_Where_Like_Clause" />
+	</select>
+
+
+	<select id="selectPageByExampleLike" parameterType="SysMenuQuery" resultMap="BaseResultMap">
+		select
+		id,
+		menu_name,
+		ref_system_code,
+		url,
+		method,
+		status,
+		pid,
+		pchain,
+		`desc`,
+		sort,
+		icon,
+		front_key,
+		is_permission,
+		menu_type,
+		create_user,
+		create_name,
+		create_time,
+		update_user,
+		update_name,
+		update_time
+		from sys_menu
+		<include refid="Example_Where_Like_Clause" />
+		order by ref_system_code, pid, sort, update_time desc , id
+		<![CDATA[ limit #{startRow},#{endRow} ]]>
+	</select>
+
+
+	<select id="selectByPrimaryKeys" parameterType="java.util.List" resultMap="BaseResultMap">
+		select
+		<trim suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		from sys_menu
+		<where>
+			<trim prefix="(" prefixOverrides="and" suffix=")">
+				<if test="list != null and list.size() > 0">
+					and id in
+					<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</if>
+				<if test="list == null or list.size() == 0">
+					1 != 1
+				</if>
+			</trim>
+		</where>
+	</select>
+</mapper>

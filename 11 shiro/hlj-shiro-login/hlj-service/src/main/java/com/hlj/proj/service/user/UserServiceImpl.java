@@ -1,15 +1,13 @@
 package com.hlj.proj.service.user;
 
 import com.hlj.proj.api.user.UserService;
-import com.hlj.proj.data.dao.mybatis.manager.system.SysUserRoleManager;
-import com.hlj.proj.data.dao.mybatis.manager.user.UserInfoManager;
-import com.hlj.proj.data.pojo.user.UserInfo;
-import com.hlj.proj.data.pojo.user.UserInfoQuery;
+import com.hlj.proj.data.dao.mybatis.manager.user.ScfUserInfoManager;
+import com.hlj.proj.data.pojo.user.ScfUserInfo;
+import com.hlj.proj.data.pojo.user.ScfUserInfoQuery;
 import com.hlj.proj.dto.user.UserDTO;
 import com.hlj.proj.enums.ResponseEnum;
 import com.hlj.proj.exception.BusinessException;
 import com.hlj.proj.utils.BeanUtils;
-import com.hlj.proj.utils.PasswordHash;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +25,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserInfoManager userInfoManager;
-
+    private ScfUserInfoManager scfUserInfoManager;
     /**
      * 查询用户信息
      * 查询顺序：
@@ -41,31 +38,38 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO queryUserInfo(UserDTO userDTO) {
 //        辨识度，依次是 用户ID ->  用户名
-        UserInfo scfUserInfo = null;
+        ScfUserInfo scfUserInfo = null;
         if (userDTO == null) {
             throw new BusinessException(ResponseEnum.用户不存在);
         }
         String username = userDTO.getUsername();
         String password = userDTO.getPassword();
-        if (StringUtils.isNotBlank(username)) {
-            UserInfoQuery query = new UserInfoQuery();
+        if (userDTO.getUserId() != null) {
+            scfUserInfo = scfUserInfoManager.findById(userDTO.getUserId());
+        } else if (StringUtils.isNotBlank(username)) {
+            ScfUserInfoQuery query = new ScfUserInfoQuery();
             query.setUsername(userDTO.getUsername());
             query.setUserType(userDTO.getUserType());
-            scfUserInfo = userInfoManager.findByQueryContion(query);
+            scfUserInfo = scfUserInfoManager.findByQueryContion(query);
+        } else {
+            ScfUserInfoQuery query = BeanUtils.toUserInfoQuey(userDTO);
+            BeanUtils.toUserInfoQuey(userDTO);
+            scfUserInfo = scfUserInfoManager.findByQueryContion(query);
         }
         if (scfUserInfo == null) {
             throw new BusinessException(ResponseEnum.用户不存在);
         }
         boolean flag = false;
-        if (StringUtils.isNotBlank(password)) {
+        if(StringUtils.isNotBlank(password)) {
             try {
-                flag = PasswordHash.validatePassword(password, scfUserInfo.getPassword());
+                flag = StringUtils.equals(password, scfUserInfo.getPassword());
             } catch (Exception e) {
                 log.error("密码对比时出现异常", e);
                 throw new BusinessException("密码对比时出现异常");
+
             }
             if (!flag) {
-                throw new BusinessException("密码错误");
+                throw new BusinessException("密码不正确");
             }
         }
         return BeanUtils.toUserDTO(scfUserInfo);

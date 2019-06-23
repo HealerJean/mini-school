@@ -2,31 +2,25 @@ package com.hlj.proj.utils;
 
 import com.hlj.proj.data.common.paging.Pagenation;
 import com.hlj.proj.data.common.result.PageListResult;
-import com.hlj.proj.data.pojo.system.SysDepartment;
-import com.hlj.proj.data.pojo.system.SysMenu;
-import com.hlj.proj.data.pojo.system.SysRole;
-import com.hlj.proj.data.pojo.user.UserInfo;
+import com.hlj.proj.data.pojo.system.ScfSysMenu;
+import com.hlj.proj.data.pojo.system.ScfSysRole;
+import com.hlj.proj.data.pojo.user.ScfUserDepartment;
+import com.hlj.proj.data.pojo.user.ScfUserInfo;
+import com.hlj.proj.data.pojo.user.ScfUserInfoQuery;
 import com.hlj.proj.dto.PageDTO;
 import com.hlj.proj.dto.system.DepartmentDTO;
 import com.hlj.proj.dto.system.MenuDTO;
 import com.hlj.proj.dto.system.RoleDTO;
 import com.hlj.proj.dto.user.UserDTO;
 import com.hlj.proj.enums.StatusEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-
-/**
- * @author HealerJean
- * @version 1.0v
- * @ClassName BeanUtils
- * @date 2019/6/13  20:08.
- * @Description
- */
+@Slf4j
 public class BeanUtils {
-
 
     public static <T> PageDTO<T> toPageDTO(PageListResult pageView, List<T> datas) {
         if (pageView == null && (datas == null || datas.isEmpty())) {
@@ -43,110 +37,34 @@ public class BeanUtils {
     }
 
 
-    /**
-     * 部门集合转换树形结构
-     *
-     * @param departmentList
-     * @return
-     */
-    public static List<DepartmentDTO> departmentListToDTOsTree(List<SysDepartment> departmentList) {
-        return departmentRecursion(departmentList, 0L);
-    }
 
-    private static List<DepartmentDTO> departmentRecursion(List<SysDepartment> departmentList, Long pid) {
-        List<DepartmentDTO> dtos = new ArrayList<>();
-        for (SysDepartment  department : departmentList) {
-            if (department.getPid().equals(pid)) {
-                DepartmentDTO dto = new DepartmentDTO();
-                dto.setId(department.getId());
-                dto.setDepartmentName(department.getDepartmentName());
-                dto.setDepartmentDesc(department.getDepartmentDesc());
-                dto.setPid(department.getPid());
-                dto.setStatus(department.getStatus());
-                dto.setChildDepartment(departmentRecursion(departmentList, department.getId()));
-                dtos.add(dto);
+
+
+    public static List<MenuDTO> menuListToDTOs(List<ScfSysMenu> menuList) {
+        List<MenuDTO> menuDTOs = new ArrayList<>();
+        for (ScfSysMenu menu : menuList) {
+            MenuDTO dto = new MenuDTO();
+            dto.setMenuName(menu.getMenuName());
+            dto.setUrl(menu.getUrl());
+            dto.setMethod(menu.getMethod());
+            if (menu.getSort() != null) {
+                dto.setSort(menu.getSort());
             }
+            dto.setIcon(menu.getIcon());
+            dto.setFrontKey(menu.getFrontKey());
+            dto.setMenuType(menu.getMenuType());
+            menuDTOs.add(dto);
         }
-        return dtos;
+        return menuDTOs;
     }
 
-
-
-    /**
-     * 部门dto转pojo
-     *
-     * @param dto
-     * @return
-     */
-    public static SysDepartment dtoToDeparment(DepartmentDTO dto) {
-        SysDepartment department = new SysDepartment();
-        department.setId(dto.getId());
-        department.setDepartmentName(dto.getDepartmentName());
-        department.setDepartmentDesc(dto.getDepartmentDesc());
-        if (dto.getPid() == null) {
-            department.setPid(0L);
-        } else {
-            department.setPid(dto.getPid());
-        }
-        department.setStatus(StatusEnum.生效.code);
-        return department;
-    }
-
-
-    /**
-     * 菜单dto转pojo
-     */
-    public static SysMenu dtoToMenu(MenuDTO dto) {
-        SysMenu menu = new SysMenu();
-        menu.setId(dto.getId());
-        menu.setMenuName(dto.getMenuName());
-        menu.setRefSystemCode(dto.getSystemCode());
-        menu.setUrl(dto.getUrl());
-        menu.setMethod(dto.getMethod());
-        menu.setStatus(dto.getStatus());
-        menu.setPid(dto.getPid());
-        menu.setPchain(dto.getPchain());
-        menu.setDesc(dto.getDesc());
-        menu.setSort(dto.getSort());
-        menu.setIcon(dto.getIcon());
-        menu.setFrontKey(dto.getFrontKey());
-        menu.setIsPermission(dto.getIsPermission());
-        menu.setMenuType(dto.getMenuType());
-        return menu;
-    }
-
-
-    /**
-     * 菜单pojo转dto
-     */
-    public static MenuDTO menuToDTO(SysMenu menu) {
-        MenuDTO dto = new MenuDTO();
-        dto.setId(menu.getId());
-        dto.setMenuName(menu.getMenuName());
-        dto.setSystemCode(menu.getRefSystemCode());
-        dto.setUrl(menu.getUrl());
-        dto.setMethod(menu.getMethod());
-        dto.setStatus(menu.getStatus());
-        dto.setPid(menu.getPid());
-        dto.setPchain(menu.getPchain());
-        dto.setDesc(menu.getDesc());
-        dto.setSort(menu.getSort());
-        dto.setIcon(menu.getIcon());
-        dto.setFrontKey(menu.getFrontKey());
-        dto.setIsPermission(menu.getIsPermission());
-        dto.setMenuType(menu.getMenuType());
-        return dto;
-    }
-
-
-
-    public static List<MenuDTO> menuListToDTOsTree(List<SysMenu> menuList) {
+    public static List<MenuDTO> menuListToDTOsTree(List<ScfSysMenu> menuList) {
         return menuRecursion(menuList, 0L);
     }
 
-    private static List<MenuDTO> menuRecursion(List<SysMenu> menuList, Long pid) {
+    private static List<MenuDTO> menuRecursion(List<ScfSysMenu> menuList, Long pid) {
         List<MenuDTO> menuDTOs = new ArrayList<>();
-        for (SysMenu u : menuList) {
+        for (ScfSysMenu u : menuList) {
             if (u.getPid().equals(pid)) {
                 MenuDTO menuDTO = new MenuDTO();
                 menuDTO.setMenuName(u.getMenuName());
@@ -178,25 +96,6 @@ public class BeanUtils {
                 return 1;
             }
         });
-        return menuDTOs;
-    }
-
-
-    public static List<MenuDTO> menuListToDTOs(List<SysMenu> menuList) {
-        List<MenuDTO> menuDTOs = new ArrayList<>();
-        for (SysMenu menu : menuList) {
-            MenuDTO dto = new MenuDTO();
-            dto.setMenuName(menu.getMenuName());
-            dto.setUrl(menu.getUrl());
-            dto.setMethod(menu.getMethod());
-            if (menu.getSort() != null) {
-                dto.setSort(menu.getSort());
-            }
-            dto.setIcon(menu.getIcon());
-            dto.setFrontKey(menu.getFrontKey());
-            dto.setMenuType(menu.getMenuType());
-            menuDTOs.add(dto);
-        }
         return menuDTOs;
     }
 
@@ -252,8 +151,6 @@ public class BeanUtils {
         });
         return result;
     }
-
-
 
     /**
      * 后端菜单树状形成,定制化
@@ -311,12 +208,168 @@ public class BeanUtils {
         return map.get(collect.get(0)).getSubmenus();
     }
 
+    public static ScfUserInfoQuery toUserInfoQuey(UserDTO userDTO) {
+        ScfUserInfoQuery query = new ScfUserInfoQuery();
+        query.setUsername(userDTO.getUsername());
+        query.setRealName(userDTO.getRealName());
+        query.setEmail(userDTO.getEmail());
+        query.setTelephone(userDTO.getTelephone());
+        query.setGender(userDTO.getGender());
+        query.setPassword(userDTO.getPassword());
+        query.setUserType(userDTO.getUserType());
+        query.setStatus(userDTO.getUserStatus());
+        return query;
+    }
 
+    public static UserDTO toUserDTO(ScfUserInfo scfUserInfo) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserId(scfUserInfo.getId());
+        userDTO.setRealName(scfUserInfo.getRealName());
+        userDTO.setEmail(scfUserInfo.getEmail());
+        userDTO.setTelephone(scfUserInfo.getTelephone());
+        userDTO.setUserType(scfUserInfo.getUserType());
+        return userDTO;
+    }
+
+    /**
+     * 用户dto转pojo
+     *
+     * @param dto
+     * @return
+     * @throws Exception
+     */
+    public static ScfUserInfo userDtoToPojo(ScfUserInfo userInfo, UserDTO dto) {
+        if (userInfo == null) {
+            userInfo = new ScfUserInfo();
+        }
+        userInfo.setId(dto.getUserId());
+        userInfo.setUsername(dto.getUsername());
+        userInfo.setRealName(dto.getRealName());
+        userInfo.setEmail(dto.getEmail());
+        userInfo.setTelephone(dto.getTelephone());
+        userInfo.setGender(dto.getGender());
+        userInfo.setStatus(dto.getUserStatus());
+        return userInfo;
+    }
+
+    /**
+     * 部门dto转pojo
+     *
+     * @param dto
+     * @return
+     */
+    public static ScfUserDepartment departmentDtoToPojo(DepartmentDTO dto) {
+        ScfUserDepartment department = new ScfUserDepartment();
+        department.setId(dto.getId());
+        department.setDepartmentName(dto.getDepartmentName());
+        department.setDepartmentDesc(dto.getDepartmentDesc());
+        if (dto.getPid() == null) {
+            department.setPid(0L);
+        } else {
+            department.setPid(dto.getPid());
+        }
+        department.setStatus(StatusEnum.生效.code);
+        return department;
+    }
+
+    /**
+     * 部门pojo转dto
+     *
+     * @param department
+     * @return
+     */
+    public static DepartmentDTO departmentToDto(ScfUserDepartment department) {
+        DepartmentDTO dto = new DepartmentDTO();
+        dto.setId(department.getId());
+        dto.setDepartmentName(department.getDepartmentName());
+        dto.setDepartmentDesc(department.getDepartmentDesc());
+        if (department.getPid() == null) {
+            dto.setPid(0L);
+        } else {
+            dto.setPid(department.getPid());
+        }
+        dto.setStatus(department.getStatus());
+        return dto;
+    }
+
+    /**
+     * 部门集合转换树形结构
+     *
+     * @param departmentList
+     * @return
+     */
+    public static List<DepartmentDTO> departmentListToDTOsTree(List<ScfUserDepartment> departmentList) {
+        return departmentRecursion(departmentList, 0L);
+    }
+
+    private static List<DepartmentDTO> departmentRecursion(List<ScfUserDepartment> departmentList, Long pid) {
+        List<DepartmentDTO> departmentDTOS = new ArrayList<>();
+        for (ScfUserDepartment d : departmentList) {
+            if (d.getPid().equals(pid)) {
+                DepartmentDTO departmentDTO = new DepartmentDTO();
+                departmentDTO.setId(d.getId());
+                departmentDTO.setDepartmentName(d.getDepartmentName());
+                departmentDTO.setDepartmentDesc(d.getDepartmentDesc());
+                departmentDTO.setPid(d.getPid());
+                departmentDTO.setStatus(d.getStatus());
+                departmentDTO.setChildDepartment(departmentRecursion(departmentList, d.getId()));
+                departmentDTOS.add(departmentDTO);
+            }
+        }
+        return departmentDTOS;
+    }
+
+
+
+
+    /**
+     * 菜单pojo转dto
+     */
+    public static MenuDTO menuToDTO(ScfSysMenu menu) {
+        MenuDTO dto = new MenuDTO();
+        dto.setId(menu.getId());
+        dto.setMenuName(menu.getMenuName());
+        dto.setSystemCode(menu.getRefSystemCode());
+        dto.setUrl(menu.getUrl());
+        dto.setMethod(menu.getMethod());
+        dto.setStatus(menu.getStatus());
+        dto.setPid(menu.getPid());
+        dto.setPchain(menu.getPchain());
+        dto.setDesc(menu.getDesc());
+        dto.setSort(menu.getSort());
+        dto.setIcon(menu.getIcon());
+        dto.setFrontKey(menu.getFrontKey());
+        dto.setIsPermission(menu.getIsPermission());
+        dto.setMenuType(menu.getMenuType());
+        return dto;
+    }
+
+    /**
+     * 菜单dto转pojo
+     */
+    public static ScfSysMenu dtoToMenu(MenuDTO dto) {
+        ScfSysMenu menu = new ScfSysMenu();
+        menu.setId(dto.getId());
+        menu.setMenuName(dto.getMenuName());
+        menu.setRefSystemCode(dto.getSystemCode());
+        menu.setUrl(dto.getUrl());
+        menu.setMethod(dto.getMethod());
+        menu.setStatus(dto.getStatus());
+        menu.setPid(dto.getPid());
+        menu.setPchain(dto.getPchain());
+        menu.setDesc(dto.getDesc());
+        menu.setSort(dto.getSort());
+        menu.setIcon(dto.getIcon());
+        menu.setFrontKey(dto.getFrontKey());
+        menu.setIsPermission(dto.getIsPermission());
+        menu.setMenuType(dto.getMenuType());
+        return menu;
+    }
 
     /**
      * 角色pojo转dto
      */
-    public static RoleDTO roleToDTO(SysRole role) {
+    public static RoleDTO roleToDTO(ScfSysRole role) {
         RoleDTO dto = new RoleDTO();
         dto.setId(role.getId());
         dto.setRoleName(role.getRoleName());
@@ -329,8 +382,8 @@ public class BeanUtils {
     /**
      * 角色dto转pojo
      */
-    public static SysRole DTOtoRole(RoleDTO dto) {
-        SysRole role = new SysRole();
+    public static ScfSysRole DTOtoRole(RoleDTO dto) {
+        ScfSysRole role = new ScfSysRole();
         role.setId(dto.getId());
         role.setRoleName(dto.getRoleName());
         role.setRefSystemCode(dto.getSystemCode());
@@ -342,16 +395,16 @@ public class BeanUtils {
 
 
 
-    public static UserDTO toUserDTO(UserInfo userInfo) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUserId(userInfo.getId());
-        userDTO.setRealName(userInfo.getName());
-        userDTO.setEmail(userInfo.getEmail());
-        userDTO.setTelephone(userInfo.getTelephone());
-        return userDTO;
+    public static DepartmentDTO toDepartmentDTO(ScfUserDepartment scfUserDepartment) {
+        if (scfUserDepartment == null) {
+            return null;
+        }
+        DepartmentDTO departmentDTO = new DepartmentDTO();
+        departmentDTO.setId(scfUserDepartment.getId());
+        departmentDTO.setDepartmentName(scfUserDepartment.getDepartmentName());
+        departmentDTO.setDepartmentDesc(scfUserDepartment.getDepartmentDesc());
+        return departmentDTO;
     }
-
-
 
 
 }

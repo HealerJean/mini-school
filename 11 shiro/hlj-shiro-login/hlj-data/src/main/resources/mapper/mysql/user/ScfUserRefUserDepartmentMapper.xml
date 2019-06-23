@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ScfUserRefUserDepartmentMapper">
+	<resultMap id="BaseResultMap" type="ScfUserRefUserDepartment">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="ref_user_id" jdbcType="BIGINT" property="refUserId" />
+		<result column="ref_department_id" jdbcType="BIGINT" property="refDepartmentId" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<trim prefix="(" prefixOverrides="and" suffix=")">
+				<if test="refUserId != null and refUserId != ''">
+					and ref_user_id = #{refUserId,jdbcType=BIGINT}
+				</if>
+				<if test="refDepartmentId != null and refDepartmentId != ''">
+					and ref_department_id = #{refDepartmentId,jdbcType=BIGINT}
+				</if>
+				<if test="status != null">
+					and status = #{status,jdbcType=VARCHAR}
+				</if>
+			</trim>
+		</where>
+	</sql>
+	<sql id="Example_Set_Clause">
+		<set>
+			<trim suffixOverrides=",">
+				<if test="refUserId != null">
+					ref_user_id = #{refUserId,jdbcType=BIGINT},
+				</if>
+				<if test="refDepartmentId != null">
+					ref_department_id = #{refDepartmentId,jdbcType=BIGINT},
+				</if>
+				<if test="status != null">
+					status = #{status,jdbcType=VARCHAR},
+				</if>
+			</trim>
+		</set>
+	</sql>
+	<sql id="Base_Column_List">
+		id,
+		ref_user_id,
+		ref_department_id,
+		status
+	</sql>
+	<sql id="Base_Set_Clause">
+		<set>
+			<trim suffixOverrides=",">
+				ref_user_id = #{refUserId,jdbcType=BIGINT},
+				ref_department_id = #{refDepartmentId,jdbcType=BIGINT},
+				status = #{status,jdbcType=VARCHAR},
+			</trim>
+		</set>
+	</sql>
+	<sql id="Selective_Column_List">
+		ID,
+		<if test="refUserId != null">
+			ref_user_id,
+		</if>
+		<if test="refDepartmentId != null">
+			ref_department_id,
+		</if>
+		<if test="status != null">
+			status,
+		</if>
+	</sql>
+	<sql id="Base_Value_List">
+		#{id,jdbcType=BIGINT},
+		#{refUserId,jdbcType=BIGINT},
+		#{refDepartmentId,jdbcType=BIGINT},
+		#{status,jdbcType=VARCHAR},
+	</sql>
+	<sql id="Selective_Value_List">
+		#{id},
+		<if test="refUserId != null">
+			#{refUserId,jdbcType=BIGINT},
+		</if>
+		<if test="refDepartmentId != null">
+			#{refDepartmentId,jdbcType=BIGINT},
+		</if>
+		<if test="status != null">
+			#{status,jdbcType=VARCHAR},
+		</if>
+	</sql>
+
+	<select id="selectByExample" parameterType="ScfUserRefUserDepartmentQuery" resultMap="BaseResultMap">
+		select
+		<trim suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		from scf_user_ref_user_department
+		<include refid="Example_Where_Clause" />
+		<!-- order by CREATE_DATE -->
+	</select>
+	<select id="selectByPrimaryKey" parameterType="Long" resultMap="BaseResultMap">
+		select
+		<trim suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		from scf_user_ref_user_department
+		where ID = #{id,jdbcType=SMALLINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="Long">
+		delete from scf_user_ref_user_department
+		where ID = #{id,jdbcType=SMALLINT}
+	</delete>
+	<delete id="deleteByExample" parameterType="ScfUserRefUserDepartmentQuery">
+		delete from scf_user_ref_user_department
+		<include refid="Example_Where_Clause" />
+	</delete>
+	<insert id="insert" parameterType="ScfUserRefUserDepartment">
+		insert into scf_user_ref_user_department
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<include refid="Base_Value_List" />
+		</trim>
+	</insert>
+	<insert id="insertSelective" parameterType="ScfUserRefUserDepartment" useGeneratedKeys="true" keyProperty="id">
+		insert into scf_user_ref_user_department
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<include refid="Selective_Column_List" />
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<include refid="Selective_Value_List" />
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="ScfUserRefUserDepartmentQuery" resultType="java.lang.Integer">
+		select count(*) from scf_user_ref_user_department
+		<include refid="Example_Where_Clause" />
+	</select>
+	<update id="updateByPrimaryKeySelective" parameterType="ScfUserRefUserDepartment">
+		update scf_user_ref_user_department
+		<include refid="Example_Set_Clause" />
+		where ID = #{id,jdbcType=SMALLINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ScfUserRefUserDepartment">
+		update scf_user_ref_user_department
+		<include refid="Base_Set_Clause" />
+		where ID = #{id,jdbcType=SMALLINT}
+	</update>
+
+	<select id="selectPageByExample" parameterType="ScfUserRefUserDepartmentQuery" resultMap="BaseResultMap">
+		select
+		<trim suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		from scf_user_ref_user_department
+		<include refid="Example_Where_Clause" />
+        <![CDATA[ limit #{startRow},#{endRow} ]]>
+  		<!-- order by CREATE_DATE -->
+	</select>
+
+
+	<resultMap id="scfUserDepartment" type="ScfUserDepartment">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+		<result column="department_desc" jdbcType="VARCHAR" property="departmentDesc" />
+		<result column="pid" jdbcType="BIGINT" property="pid" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="create_user" jdbcType="BIGINT" property="createUser" />
+		<result column="create_name" jdbcType="VARCHAR" property="createName" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_user" jdbcType="BIGINT" property="updateUser" />
+		<result column="update_name" jdbcType="VARCHAR" property="updateName" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+
+	<select id="selectByExampleToUser" parameterType="ScfUserRefUserDepartmentQuery" resultMap="scfUserDepartment">
+		select
+		de.id,
+		de.department_name,
+		de.department_desc,
+		de.pid,
+		de.status,
+		de.create_user,
+		de.create_name,
+		de.create_time,
+		de.update_user,
+		de.update_name,
+		de.update_time
+		from scf_user_ref_user_department rde, scf_user_department de
+		<where>
+			<trim prefix="(" prefixOverrides="and" suffix=")">
+
+					and rde.ref_department_id = de.id
+
+				<if test="refUserId != null and refUserId != ''">
+					and rde.ref_user_id = #{refUserId,jdbcType=BIGINT}
+				</if>
+				<if test="refDepartmentId != null and refDepartmentId != ''">
+					and rde.ref_department_id = #{refDepartmentId,jdbcType=BIGINT}
+				</if>
+				<if test="status != null">
+					and rde.status = #{status,jdbcType=VARCHAR}
+				</if>
+			</trim>
+		</where>
+	</select>
+
+</mapper>

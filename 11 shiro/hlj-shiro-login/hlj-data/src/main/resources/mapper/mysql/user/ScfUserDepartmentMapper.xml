@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ScfUserDepartmentMapper">
+	<resultMap id="BaseResultMap" type="ScfUserDepartment">
+		<id column="ID" jdbcType="BIGINT" property="id" />
+		<result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+		<result column="department_desc" jdbcType="VARCHAR" property="departmentDesc" />
+		<result column="pid" jdbcType="BIGINT" property="pid" />
+		<result column="status" jdbcType="VARCHAR" property="status" />
+		<result column="create_user" jdbcType="BIGINT" property="createUser" />
+		<result column="create_name" jdbcType="VARCHAR" property="createName" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_user" jdbcType="BIGINT" property="updateUser" />
+		<result column="update_name" jdbcType="VARCHAR" property="updateName" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<trim prefix="(" prefixOverrides="and" suffix=")">
+				<if test="departmentName != null">
+					and department_name = #{departmentName,jdbcType=VARCHAR}
+				</if>
+				<if test="departmentDesc != null">
+					and department_desc = #{departmentDesc,jdbcType=VARCHAR}
+				</if>
+				<if test="pid != null and pid != ''">
+					and pid = #{pid,jdbcType=BIGINT}
+				</if>
+				<if test="status != null">
+					and status = #{status,jdbcType=VARCHAR}
+				</if>
+				<if test="createUser != null and createUser != ''">
+					and create_user = #{createUser,jdbcType=BIGINT}
+				</if>
+				<if test="createName != null">
+					and create_name = #{createName,jdbcType=VARCHAR}
+				</if>
+				<if test="updateUser != null and updateUser != ''">
+					and update_user = #{updateUser,jdbcType=BIGINT}
+				</if>
+				<if test="updateName != null">
+					and update_name = #{updateName,jdbcType=VARCHAR}
+				</if>
+			</trim>
+		</where>
+	</sql>
+	<sql id="Example_Set_Clause">
+		<set>
+			<trim suffixOverrides=",">
+				<if test="departmentName != null">
+					department_name = #{departmentName,jdbcType=VARCHAR},
+				</if>
+				<if test="departmentDesc != null">
+					department_desc = #{departmentDesc,jdbcType=VARCHAR},
+				</if>
+				<if test="pid != null">
+					pid = #{pid,jdbcType=BIGINT},
+				</if>
+				<if test="status != null">
+					status = #{status,jdbcType=VARCHAR},
+				</if>
+				<if test="createUser != null">
+					create_user = #{createUser,jdbcType=BIGINT},
+				</if>
+				<if test="createName != null">
+					create_name = #{createName,jdbcType=VARCHAR},
+				</if>
+				<if test="updateUser != null">
+					update_user = #{updateUser,jdbcType=BIGINT},
+				</if>
+				<if test="updateName != null">
+					update_name = #{updateName,jdbcType=VARCHAR},
+				</if>
+				UPDATE_TIME = NOW(),
+			</trim>
+		</set>
+	</sql>
+	<sql id="Base_Column_List">
+		id,
+		department_name,
+		department_desc,
+		pid,
+		status,
+		create_user,
+		create_name,
+		create_time,
+		update_user,
+		update_name,
+		update_time
+	</sql>
+	<sql id="Base_Set_Clause">
+		<set>
+			<trim suffixOverrides=",">
+				department_name = #{departmentName,jdbcType=VARCHAR},
+				department_desc = #{departmentDesc,jdbcType=VARCHAR},
+				pid = #{pid,jdbcType=BIGINT},
+				status = #{status,jdbcType=VARCHAR},
+				create_user = #{createUser,jdbcType=BIGINT},
+				create_name = #{createName,jdbcType=VARCHAR},
+				update_user = #{updateUser,jdbcType=BIGINT},
+				update_name = #{updateName,jdbcType=VARCHAR},
+			</trim>
+		</set>
+	</sql>
+	<sql id="Selective_Column_List">
+		ID,
+		<if test="departmentName != null">
+			department_name,
+		</if>
+		<if test="departmentDesc != null">
+			department_desc,
+		</if>
+		<if test="pid != null">
+			pid,
+		</if>
+		<if test="status != null">
+			status,
+		</if>
+		<if test="createUser != null">
+			create_user,
+		</if>
+		<if test="createName != null">
+			create_name,
+		</if>
+		CREATE_TIME,
+		<if test="updateUser != null">
+			update_user,
+		</if>
+		<if test="updateName != null">
+			update_name,
+		</if>
+	</sql>
+	<sql id="Base_Value_List">
+		#{id,jdbcType=BIGINT},
+		#{departmentName,jdbcType=VARCHAR},
+		#{departmentDesc,jdbcType=VARCHAR},
+		#{pid,jdbcType=BIGINT},
+		#{status,jdbcType=VARCHAR},
+		#{createUser,jdbcType=BIGINT},
+		#{createName,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateUser,jdbcType=BIGINT},
+		#{updateName,jdbcType=VARCHAR},
+		#{updateTime,jdbcType=TIMESTAMP},
+	</sql>
+	<sql id="Selective_Value_List">
+		#{id},
+		<if test="departmentName != null">
+			#{departmentName,jdbcType=VARCHAR},
+		</if>
+		<if test="departmentDesc != null">
+			#{departmentDesc,jdbcType=VARCHAR},
+		</if>
+		<if test="pid != null">
+			#{pid,jdbcType=BIGINT},
+		</if>
+		<if test="status != null">
+			#{status,jdbcType=VARCHAR},
+		</if>
+		<if test="createUser != null">
+			#{createUser,jdbcType=BIGINT},
+		</if>
+		<if test="createName != null">
+			#{createName,jdbcType=VARCHAR},
+		</if>
+		NOW(),
+		<if test="updateUser != null">
+			#{updateUser,jdbcType=BIGINT},
+		</if>
+		<if test="updateName != null">
+			#{updateName,jdbcType=VARCHAR},
+		</if>
+	</sql>
+
+	<select id="selectByExample" parameterType="ScfUserDepartmentQuery" resultMap="BaseResultMap">
+		select
+		<trim suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		from scf_user_department
+		<include refid="Example_Where_Clause" />
+		<!-- order by CREATE_DATE -->
+	</select>
+	<select id="selectByPrimaryKey" parameterType="Long" resultMap="BaseResultMap">
+		select
+		<trim suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		from scf_user_department
+		where ID = #{id,jdbcType=SMALLINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="Long">
+		delete from scf_user_department
+		where ID = #{id,jdbcType=SMALLINT}
+	</delete>
+	<delete id="deleteByExample" parameterType="ScfUserDepartmentQuery">
+		delete from scf_user_department
+		<include refid="Example_Where_Clause" />
+	</delete>
+	<insert id="insert" parameterType="ScfUserDepartment">
+		insert into scf_user_department
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<include refid="Base_Value_List" />
+		</trim>
+	</insert>
+	<insert id="insertSelective" parameterType="ScfUserDepartment" useGeneratedKeys="true" keyProperty="id">
+		insert into scf_user_department
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<include refid="Selective_Column_List" />
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<include refid="Selective_Value_List" />
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="ScfUserDepartmentQuery" resultType="java.lang.Integer">
+		select count(*) from scf_user_department
+		<include refid="Example_Where_Clause" />
+	</select>
+	<update id="updateByPrimaryKeySelective" parameterType="ScfUserDepartment">
+		update scf_user_department
+		<include refid="Example_Set_Clause" />
+		where ID = #{id,jdbcType=SMALLINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ScfUserDepartment">
+		update scf_user_department
+		<include refid="Base_Set_Clause" />
+		where ID = #{id,jdbcType=SMALLINT}
+	</update>
+
+	<select id="selectPageByExample" parameterType="ScfUserDepartmentQuery" resultMap="BaseResultMap">
+		select
+		<trim suffixOverrides=",">
+			<include refid="Base_Column_List" />
+		</trim>
+		from scf_user_department
+		<include refid="Example_Where_Clause" />
+        <![CDATA[ limit #{startRow},#{endRow} ]]>
+  		<!-- order by CREATE_DATE -->
+	</select>
+</mapper>

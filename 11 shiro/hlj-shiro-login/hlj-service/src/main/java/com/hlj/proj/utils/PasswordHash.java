@@ -153,14 +153,14 @@ public class PasswordHash {
         }
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         try {
-        String sss = createHash("123456");
+        String sss = createHash("admin");
         System.out.println("====" + sss);
     } catch (NoSuchAlgorithmException e) {
         e.printStackTrace();
     } catch (InvalidKeySpecException e) {
         e.printStackTrace();
     }
-}*/
+}
 }

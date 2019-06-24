@@ -4,9 +4,9 @@
 package com.hlj.proj.service.system;
 
 import com.hlj.proj.api.system.RoleService;
-import com.hlj.proj.data.dao.mybatis.manager.system.SysMenuManager;
-import com.hlj.proj.data.dao.mybatis.manager.system.SysRoleManager;
-import com.hlj.proj.data.dao.mybatis.manager.system.SysRoleMenuManager;
+import com.hlj.proj.data.dao.mybatis.manager.system.ScfSysMenuManager;
+import com.hlj.proj.data.dao.mybatis.manager.system.ScfSysRefRoleMenuManager;
+import com.hlj.proj.data.dao.mybatis.manager.system.ScfSysRoleManager;
 import com.hlj.proj.data.pojo.system.*;
 import com.hlj.proj.dto.PageDTO;
 import com.hlj.proj.dto.system.MenuDTO;
@@ -27,18 +27,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 @Service
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    private SysRoleManager roleManager;
+    private ScfSysRoleManager roleManager;
 
     @Autowired
-    private SysMenuManager sysMenuManager;
+    private ScfSysMenuManager menuManager;
 
     @Autowired
-    private SysRoleMenuManager sysRoleMenuManager;
+    private ScfSysRefRoleMenuManager refRoleMenuManager;
 
     /**
      * 角色添加
@@ -48,19 +47,20 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void addRole(RoleDTO roleDTO, IdentityInfoDTO identityInfoDTO) {
-        SysRole role = BeanUtils.DTOtoRole(roleDTO);
-        SysRoleQuery query = new SysRoleQuery();
+        ScfSysRole role = BeanUtils.DTOtoRole(roleDTO);
+        ScfSysRoleQuery query = new ScfSysRoleQuery();
         query.setRoleName(role.getRoleName());
         query.setRefSystemCode(role.getRefSystemCode());
         query.setStatus(StatusEnum.生效.code);
-        List<SysRole> resultList = roleManager.queryList(query);
+        List<ScfSysRole> resultList = roleManager.queryList(query);
         if (resultList != null && !resultList.isEmpty()) {
-            throw new BusinessException(ResponseEnum.角色已经存在) ;
+            throw new BusinessException(ResponseEnum.角色已经存在.code);
         }
         role.setStatus(StatusEnum.生效.code);
         role.setCreateUser(identityInfoDTO.getUserId());
         role.setCreateName(identityInfoDTO.getUsername());
         roleManager.insertSelective(role);
+        roleDTO.setId(role.getId());
     }
 
     /**
@@ -71,9 +71,9 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public PageDTO<RoleDTO> getRoles(RoleDTO dto) {
-        SysRolePage page = null;
-        SysRoleQuery query = new SysRoleQuery();
-        List<SysRole> roles;
+        ScfSysRolePage page = null;
+        ScfSysRoleQuery query = new ScfSysRoleQuery();
+        List<ScfSysRole> roles;
         if (dto.getIsPage() == null || !dto.getIsPage()) {
             //查询不分页
             query.setStatus(StatusEnum.生效.code);
@@ -103,11 +103,11 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleDTO> getRolesNoPage(RoleDTO roleDTO) {
-        SysRoleQuery query = new SysRoleQuery();
+        ScfSysRoleQuery query = new ScfSysRoleQuery();
         query.setRefSystemCode(roleDTO.getSystemCode());
         query.setRoleName(roleDTO.getRoleName());
         query.setStatus(StatusEnum.生效.code);
-        List<SysRole> roles = roleManager.queryListLike(query);
+        List<ScfSysRole> roles = roleManager.queryListLike(query);
         if (roles != null) {
             return roles.stream().map(BeanUtils::roleToDTO).collect(Collectors.toList());
         }
@@ -122,7 +122,7 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public RoleDTO getRole(Long roleId) {
-        SysRole result = roleManager.findById(roleId);
+        ScfSysRole result = roleManager.findById(roleId);
         if (result != null) {
             RoleDTO roleDTO = BeanUtils.roleToDTO(result);
             //查询菜单
@@ -133,12 +133,15 @@ public class RoleServiceImpl implements RoleService {
             for (Map.Entry<String, List<MenuDTO>> entry : collect.entrySet()) {
                 String key = entry.getKey();
                 List<MenuDTO> value = entry.getValue();
+                if (MenuTypeEnum.后端菜单.code.equals(key)) {
+                    value = menusByRole;
+                }
                 value = BeanUtils.recursionMenus(value, 0L);
                 switch (MenuTypeEnum.toEnum(key)) {
-                    case 前端菜单:
+                    case 后端菜单:
                         roleDTO.setBackMenus(value);
                         break;
-                    case 后端菜单:
+                    case 前端菜单:
                         roleDTO.setFrontMenus(value);
                         break;
                     default:
@@ -147,7 +150,7 @@ public class RoleServiceImpl implements RoleService {
             return roleDTO;
 
         } else {
-            throw new BusinessException(ResponseEnum.角色不存在);
+            throw new BusinessException(ResponseEnum.角色不存在.code);
         }
     }
 
@@ -159,20 +162,20 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public void updateRole(RoleDTO roleDTO, IdentityInfoDTO identityInfoDTO) {
-        SysRoleQuery query = new SysRoleQuery();
+        ScfSysRoleQuery query = new ScfSysRoleQuery();
         query.setRoleName(roleDTO.getRoleName());
         query.setRefSystemCode(roleDTO.getSystemCode());
         query.setStatus(StatusEnum.生效.code);
-        List<SysRole> resultList = roleManager.queryList(query);
+        List<ScfSysRole> resultList = roleManager.queryList(query);
         if (resultList.size() > 1 || (resultList.size() == 1 && !resultList.get(0).getId().equals(roleDTO.getId()))) {
-            throw new BusinessException(ResponseEnum.角色已经存在) ;
+            throw new BusinessException(ResponseEnum.角色已经存在.code);
         }
-        SysRole role = BeanUtils.DTOtoRole(roleDTO);
+        ScfSysRole role = BeanUtils.DTOtoRole(roleDTO);
         role.setUpdateUser(identityInfoDTO.getUserId());
         role.setUpdateName(identityInfoDTO.getUsername());
         int i = roleManager.updateSelective(role);
         if (i < 1) {
-            throw new BusinessException(ResponseEnum.角色不存在) ;
+            throw new BusinessException(ResponseEnum.角色不存在.code);
         }
     }
 
@@ -184,17 +187,17 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteRole(Long roleId, IdentityInfoDTO identityInfoDTO) {
-        SysRole role = roleManager.findById(roleId);
+        ScfSysRole role = roleManager.findById(roleId);
         if (role == null) {
-            throw new BusinessException(ResponseEnum.角色不存在) ;
+            throw new BusinessException(ResponseEnum.角色不存在.code);
         }
         role.setStatus(StatusEnum.废弃.code);
         role.setUpdateUser(identityInfoDTO.getUserId());
         role.setUpdateName(identityInfoDTO.getUsername());
         roleManager.updateSelective(role);
-        SysRoleMenuQuery query = new SysRoleMenuQuery();
+        ScfSysRefRoleMenuQuery query = new ScfSysRefRoleMenuQuery();
         query.setRefRoleId(roleId);
-        sysRoleMenuManager.delete(query);
+        refRoleMenuManager.delete(query);
     }
 
     /**
@@ -210,7 +213,7 @@ public class RoleServiceImpl implements RoleService {
         map.put("menuName", dto.getMenuName());
         map.put("menuType", dto.getMenuType());
         map.put("status", StatusEnum.生效.code);
-        List<SysMenu> menus = sysRoleMenuManager.selectMenusByRoleId(map);
+        List<ScfSysMenu> menus = refRoleMenuManager.selectMenusByRoleId(map);
         if (menus != null) {
             return menus.stream().map(BeanUtils::menuToDTO).collect(Collectors.toList());
         }
@@ -227,12 +230,12 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(rollbackFor = Exception.class)
     public void updateMenusByRole(Long roleId, MenuDTO menuDTO, IdentityInfoDTO identityInfoDTO) {
         //先将角色现有菜单删除，再批量添加菜单信息
-        SysRoleMenuQuery delQuery = new SysRoleMenuQuery();
+        ScfSysRefRoleMenuQuery delQuery = new ScfSysRefRoleMenuQuery();
         delQuery.setRefRoleId(roleId);
-        sysRoleMenuManager.delete(delQuery);
+        refRoleMenuManager.delete(delQuery);
         List<Long> back = menuDTO.getBack();
         List<Long> front = menuDTO.getFront();
-        List<SysRoleMenu> refRoleMenus = new ArrayList<>();
+        List<ScfSysRefRoleMenu> refRoleMenus = new ArrayList<>();
         //添加前端菜单
         if (front != null) {
             for (Long i : front) {
@@ -241,18 +244,18 @@ public class RoleServiceImpl implements RoleService {
         }
         //添加后端菜单
         if (back != null) {
-            List<SysMenu> ids = sysMenuManager.findByIds(back);
+            List<ScfSysMenu> ids = menuManager.findByIds(back);
             List<Long> longList = ids.stream().filter(i -> MenuTypeEnum.后端菜单.code.equals(i.getMenuType()))
-                    .map(SysMenu::getId).collect(Collectors.toList());
+                    .map(ScfSysMenu::getId).collect(Collectors.toList());
             for (Long i : longList) {
                 refRoleMenus.add(toRefRoleMenu(roleId, identityInfoDTO, i));
             }
         }
-        sysRoleMenuManager.batchInsert(refRoleMenus);
+        refRoleMenuManager.batchInsert(refRoleMenus);
     }
 
-    private SysRoleMenu toRefRoleMenu(Long roleId, IdentityInfoDTO identityInfoDTO, Long menuId) {
-        SysRoleMenu refMenu = new SysRoleMenu();
+    private ScfSysRefRoleMenu toRefRoleMenu(Long roleId, IdentityInfoDTO identityInfoDTO, Long menuId) {
+        ScfSysRefRoleMenu refMenu = new ScfSysRefRoleMenu();
         refMenu.setRefRoleId(roleId);
         refMenu.setRefMenuId(menuId);
         refMenu.setStatus(StatusEnum.生效.code);

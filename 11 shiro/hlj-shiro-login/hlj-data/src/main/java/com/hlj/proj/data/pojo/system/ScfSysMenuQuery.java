@@ -63,6 +63,9 @@ public class ScfSysMenuQuery extends PagingQuery {
 		return 0;
 	}
 
-
+	/**
+	 * 角色Id
+	 */
+	private Long refRoleId ;
 
 }

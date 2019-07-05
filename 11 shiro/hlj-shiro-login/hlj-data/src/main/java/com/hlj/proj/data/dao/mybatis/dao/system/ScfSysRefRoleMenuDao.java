@@ -64,11 +64,4 @@ public class ScfSysRefRoleMenuDao extends BaseDao {
 		return super.getSqlSession().update("ScfSysRefRoleMenuMapper.updateByPrimaryKey", record);
 	}
 
-	public List<ScfSysMenu> selectByExampleToMenu(ScfSysRefRoleMenuQuery example) {
-		return super.getSqlSession().selectList("ScfSysRefRoleMenuMapper.selectByExampleToMenu", example);
-	}
-
-	public List<ScfSysMenu> selectMenusByRoleId(Map<String, Object> map) {
-		return super.getSqlSession().selectList("ScfSysRefRoleMenuMapper.selectMenusByRoleId", map);
-	}
 }

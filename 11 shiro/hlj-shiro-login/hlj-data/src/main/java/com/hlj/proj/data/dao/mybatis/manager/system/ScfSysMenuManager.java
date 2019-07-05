@@ -7,6 +7,7 @@ import com.hlj.proj.data.dao.mybatis.dao.system.ScfSysMenuDao;
 import com.hlj.proj.data.pojo.system.ScfSysMenu;
 import com.hlj.proj.data.pojo.system.ScfSysMenuPage;
 import com.hlj.proj.data.pojo.system.ScfSysMenuQuery;
+import com.hlj.proj.data.pojo.system.ScfSysRefRoleMenuQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -123,4 +124,12 @@ public class ScfSysMenuManager {
 		return scfSysMenuDao.batchUpdate(list);
 	}
 
+
+	public List<ScfSysMenu> queryListToMenu(ScfSysMenuQuery query) {
+		return scfSysMenuDao.selectByExampleToMenu(query);
+	}
+
+	public List<ScfSysMenu> selectMenusByRoleId(ScfSysMenuQuery  query) {
+		return scfSysMenuDao.selectMenusByRoleId(query);
+	}
 }

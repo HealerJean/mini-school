@@ -476,7 +476,8 @@
 		<![CDATA[ limit #{startRow},#{endRow} ]]>
 	</select>
 
-	<select id="selectByPrimaryKeys" parameterType="java.util.List" resultMap="BaseResultMap">
+
+	<select id="selectByPrimaryKeys" parameterType="ScfSysMenuQuery" resultMap="BaseResultMap">
 		select
 		<trim suffixOverrides=",">
 			<include refid="Base_Column_List" />
@@ -496,4 +497,35 @@
 			</trim>
 		</where>
 	</select>
+
+
+
+	<select id="selectByExampleToMenu" parameterType="ScfSysRefRoleMenuQuery" resultMap="ScfSysMenuMap">
+		select sm.*
+		from  scf_sys_menu sm
+		left join scf_sys_ref_role_menu rrm  on  rrm.ref_menu_id = sm.id
+		where  sm.status
+		<if test="refRoleIds != null and refRoleIds.size() > 0">
+			and rrm.ref_role_id in
+			<foreach collection="refRoleIds" index="index" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</select>
+
+	<select id="selectMenusByRoleId" parameterType="BaseResultMap" resultMap="ScfSysMenuMap">
+		SELECT m.* FROM scf_sys_menu m
+		LEFT JOIN scf_sys_ref_role_menu rm ON rm.ref_menu_id = m.id
+		where rm.ref_role_id = #{roleId}
+		AND m.status = #{status}
+		<if test="menuName != null">
+			and m.menu_name LIKE CONCAT('%',#{menuName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="menuType != null and menuType != ''">
+			and m.menu_type = #{menuType,jdbcType=VARCHAR}
+		</if>
+		ORDER BY m.pid, m.sort, m.update_time, m.id
+	</select>
+
+
 </mapper>

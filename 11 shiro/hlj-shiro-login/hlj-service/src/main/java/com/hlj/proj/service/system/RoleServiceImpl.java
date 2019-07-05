@@ -201,19 +201,19 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
-     * 角色权限查询
+     *   角色权限查询
      *
      * @param roleId
      * @return
      */
     @Override
     public List<MenuDTO> getMenusByRole(Long roleId, MenuDTO dto) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("roleId", roleId);
-        map.put("menuName", dto.getMenuName());
-        map.put("menuType", dto.getMenuType());
-        map.put("status", StatusEnum.生效.code);
-        List<ScfSysMenu> menus = refRoleMenuManager.selectMenusByRoleId(map);
+        ScfSysMenuQuery menuQuery = new ScfSysMenuQuery();
+        menuQuery.setStatus(StatusEnum.生效.code);
+        menuQuery.setMenuName(dto.getMenuName());
+        menuQuery.setMenuType(dto.getMenuType());
+        menuQuery.setRefRoleId(roleId);
+        List<ScfSysMenu> menus = menuManager.selectMenusByRoleId(menuQuery);
         if (menus != null) {
             return menus.stream().map(BeanUtils::menuToDTO).collect(Collectors.toList());
         }

@@ -225,46 +225,7 @@
   		<!-- order by CREATE_DATE -->
 	</select>
 
-	<resultMap id="ScfSysMenuMap" type="ScfSysMenu">
-		<id column="ID" jdbcType="BIGINT" property="id" />
-		<result column="ref_system_code" jdbcType="VARCHAR" property="refSystemCode" />
-		<result column="menu_name" jdbcType="VARCHAR" property="menuName" />
-		<result column="url" jdbcType="VARCHAR" property="url" />
-		<result column="method" jdbcType="VARCHAR" property="method" />
-		<result column="status" jdbcType="VARCHAR" property="status" />
-		<result column="pid" jdbcType="BIGINT" property="pid" />
-		<result column="pchain" jdbcType="VARCHAR" property="pchain" />
-		<result column="desc" jdbcType="VARCHAR" property="desc" />
-		<result column="sort" jdbcType="INTEGER" property="sort" />
-		<result column="icon" jdbcType="VARCHAR" property="icon" />
-		<result column="front_key" jdbcType="VARCHAR" property="frontKey" />
-		<result column="is_permission" jdbcType="VARCHAR" property="isPermission" />
-		<result column="menu_type" jdbcType="VARCHAR" property="menuType" />
-		<result column="create_user" jdbcType="BIGINT" property="createUser" />
-		<result column="create_name" jdbcType="VARCHAR" property="createName" />
-		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-		<result column="update_user" jdbcType="BIGINT" property="updateUser" />
-		<result column="update_name" jdbcType="VARCHAR" property="updateName" />
-		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-	</resultMap>
-	<select id="selectByExampleToMenu" parameterType="ScfSysRefRoleMenuQuery" resultMap="ScfSysMenuMap">
-		select sm.*
-		from scf_sys_ref_role_menu rrm left join scf_sys_menu sm on  rrm.ref_menu_id = sm.id
-		<include refid="Example_Where_Clause" />
-		<!-- order by CREATE_DATE -->
-	</select>
 
-	<select id="selectMenusByRoleId" parameterType="java.util.Map" resultMap="ScfSysMenuMap">
-		SELECT m.* FROM scf_sys_menu m
-		LEFT JOIN scf_sys_ref_role_menu rm ON rm.ref_menu_id = m.id
-		where rm.ref_role_id = #{roleId}
-		AND m.status = #{status}
-		<if test="menuName != null">
-			and m.menu_name LIKE CONCAT('%',#{menuName,jdbcType=VARCHAR},'%')
-		</if>
-		<if test="menuType != null and menuType != ''">
-			and m.menu_type = #{menuType,jdbcType=VARCHAR}
-		</if>
-		ORDER BY m.pid, m.sort, m.update_time, m.id
-	</select>
+
+
 </mapper>

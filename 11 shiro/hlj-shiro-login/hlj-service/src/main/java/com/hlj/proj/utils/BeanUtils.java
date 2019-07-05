@@ -58,6 +58,11 @@ public class BeanUtils {
         return menuDTOs;
     }
 
+    /**
+     * 获取前端_路由菜单树形集合
+     * @param menuList
+     * @return
+     */
     public static List<MenuDTO> menuListToDTOsTree(List<ScfSysMenu> menuList) {
         return menuRecursion(menuList, 0L);
     }

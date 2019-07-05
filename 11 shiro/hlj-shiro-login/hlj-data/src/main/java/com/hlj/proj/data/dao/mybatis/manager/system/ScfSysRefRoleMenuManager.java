@@ -101,11 +101,5 @@ public class ScfSysRefRoleMenuManager {
 		return scfSysRefRoleMenuPage;
 	}
 
-	public List<ScfSysMenu> queryListToMenu(ScfSysRefRoleMenuQuery query) {
-		return scfSysRefRoleMenuDao.selectByExampleToMenu(query);
-	}
 
-	public List<ScfSysMenu> selectMenusByRoleId(Map<String, Object> map) {
-		return scfSysRefRoleMenuDao.selectMenusByRoleId(map);
-	}
 }

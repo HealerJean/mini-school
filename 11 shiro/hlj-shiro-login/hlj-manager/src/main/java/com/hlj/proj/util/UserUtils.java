@@ -26,20 +26,20 @@ public class UserUtils {
     /**
      * 获取基本用户信息
      */
-    public static IdentityInfoDTO getAuthUser(){
+    public static IdentityInfoDTO getAuthUser() {
         Subject subject = null;
-        try{
+        try {
             subject = SecurityUtils.getSubject();
-        }catch (UnavailableSecurityManagerException e){
+        } catch (UnavailableSecurityManagerException e) {
             log.debug("没有开启权限管理配置");
             return null;
         }
-        if(subject != null) {
+        if (subject != null) {
             Session session = subject.getSession();
-            if(session != null){
+            if (session != null) {
                 Object attribute = session.getAttribute(AuthConstants.AUTH_USER);
-                if(attribute != null && attribute instanceof IdentityInfoDTO){
-                    return (IdentityInfoDTO)attribute;
+                if (attribute != null && attribute instanceof IdentityInfoDTO) {
+                    return (IdentityInfoDTO) attribute;
                 }
             }
         }
@@ -47,24 +47,23 @@ public class UserUtils {
     }
 
 
-
     /**
      * 获取用户菜单
      */
-    public static List<MenuDTO> getMenus(){
+    public static List<MenuDTO> getMenus() {
         Subject subject = null;
-        try{
+        try {
             subject = SecurityUtils.getSubject();
-        }catch (UnavailableSecurityManagerException e){
+        } catch (UnavailableSecurityManagerException e) {
             log.debug("没有开启权限管理配置");
             return null;
         }
-        if(subject != null) {
+        if (subject != null) {
             Session session = subject.getSession();
-            if(session != null){
+            if (session != null) {
                 Object attribute = session.getAttribute(AuthConstants.AUTH_MENU);
-                if(attribute != null && attribute instanceof List){
-                    return (List<MenuDTO>)attribute;
+                if (attribute != null && attribute instanceof List) {
+                    return (List<MenuDTO>) attribute;
                 }
             }
         }
@@ -73,6 +72,7 @@ public class UserUtils {
 
     /**
      * 递归菜单
+     *
      * @param menus
      * @param result
      * @return
@@ -91,7 +91,7 @@ public class UserUtils {
                 }
                 ucenterFrontMenuDTO.setName(menuDTO.getFrontKey());
                 ucenterFrontMenuDTO.setPath(menuDTO.getUrl());
-                ucenterFrontMenuDTO.setSort(menuDTO.getSort() == null ? 0 :Integer.valueOf(menuDTO.getSort()));
+                ucenterFrontMenuDTO.setSort(menuDTO.getSort() == null ? 0 : Integer.valueOf(menuDTO.getSort()));
                 UcenterFrontMenuMetaDTO meta = new UcenterFrontMenuMetaDTO();
                 meta.setIcon(menuDTO.getIcon());
                 meta.setTitle(menuDTO.getMenuName());

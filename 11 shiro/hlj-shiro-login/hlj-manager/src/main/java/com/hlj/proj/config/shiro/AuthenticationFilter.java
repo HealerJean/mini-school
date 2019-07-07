@@ -61,7 +61,7 @@ public class AuthenticationFilter extends FormAuthenticationFilter {
             return ;
         }
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        httpServletResponse.setStatus(ResponseEnum.未登陆.code);
+        httpServletResponse.setStatus(ResponseEnum.未登录.code);
     }
 
 

@@ -47,5 +47,4 @@ public class ScfSysRefRoleMenuQuery extends PagingQuery {
 	}
 
 
-
 }

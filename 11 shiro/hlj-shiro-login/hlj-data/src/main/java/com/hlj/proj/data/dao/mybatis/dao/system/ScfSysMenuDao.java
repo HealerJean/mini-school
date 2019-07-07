@@ -5,6 +5,7 @@
 import com.hlj.proj.data.dao.mybatis.dao.BaseDao;
 import com.hlj.proj.data.pojo.system.ScfSysMenu;
 import com.hlj.proj.data.pojo.system.ScfSysMenuQuery;
+import com.hlj.proj.data.pojo.system.ScfSysRefRoleMenuQuery;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -76,5 +77,14 @@ public class ScfSysMenuDao extends BaseDao {
 
 	public int batchUpdate(List<ScfSysMenu> list) {
 		return super.batchUpdate("ScfSysMenuMapper.updateByPrimaryKeySelective", list);
+	}
+
+
+	public List<ScfSysMenu> selectByExampleToMenu(ScfSysMenuQuery example) {
+		return super.getSqlSession().selectList("ScfSysMenuMapper.selectByExampleToMenu", example);
+	}
+
+	public List<ScfSysMenu> selectMenusByRoleId(ScfSysMenuQuery example) {
+		return super.getSqlSession().selectList("ScfSysMenuMapper.selectMenusByRoleId", example);
 	}
 }

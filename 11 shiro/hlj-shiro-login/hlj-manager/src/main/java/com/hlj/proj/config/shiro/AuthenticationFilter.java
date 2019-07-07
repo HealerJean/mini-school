@@ -13,7 +13,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Serializable;
 
 /**
  * @ClassName OauthAuthenticationFilter
@@ -32,7 +31,7 @@ public class AuthenticationFilter extends FormAuthenticationFilter {
     }
 
     /**
-     *  该方法为未登陆状态进入
+     *  1、没有登录状态下进入
      */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
@@ -80,7 +79,7 @@ public class AuthenticationFilter extends FormAuthenticationFilter {
     }
 
     /**
-     * 判断是否是登陆的请求：此处修改未获取了授权码并重定向回来的路径
+     * 判断是否是登陆的请求：
      * @param request
      * @param response
      * @return
@@ -92,11 +91,5 @@ public class AuthenticationFilter extends FormAuthenticationFilter {
         return this.pathsMatch(loginUrl, requestURI);
     }
 
-    public void storeSessionId(Serializable currentId, HttpServletRequest request, HttpServletResponse response) {
-        if (currentId == null) {
-            String msg = "sessionId cannot be null when persisting for subsequent requests.";
-            throw new IllegalArgumentException(msg);
-        }
-    }
 
 }

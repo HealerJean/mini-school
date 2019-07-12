@@ -34,6 +34,12 @@ public class AuthWebSessionManager extends DefaultWebSessionManager {
     private boolean sessionIdCookieEnabled;
     private AuthConfiguration authConfiguration;
 
+    /**
+     * 初始化session管理器
+     * 1、初始化session的与系统关联
+     * 2、设置sessionIdCookie，将sessionId存储到cookie中
+     * @param authConfiguration
+     */
     public AuthWebSessionManager(AuthConfiguration authConfiguration) {
         super();
         this.authConfiguration = authConfiguration;
@@ -52,15 +58,30 @@ public class AuthWebSessionManager extends DefaultWebSessionManager {
         super.setSessionValidationSchedulerEnabled(false);
     }
 
+    /**
+     * 取出Session：当浏览器最开始访问的时候进入获取当前会话session
+     * 1/
+     */
     @Override
-    public boolean isSessionIdCookieEnabled() {
-        return sessionIdCookieEnabled;
+    protected Session retrieveSession(SessionKey sessionKey) throws UnknownSessionException {
+        Serializable sessionId = getSessionId(sessionKey);
+        if (sessionId == null) {
+            log.debug("Unable to resolve session ID from SessionKey [{}].  Returning null to indicate a " +
+                    "session could not be found.", sessionKey);
+            return null;
+        }
+        String readKey = sessionId.toString();
+        readKey = AuthConstants.SESSION_TYPE_COOKIE + ":" + readKey;
+        //调用RedisSessionDao进行获取session   -》readSession
+        // 如果获取不到session，抛出下面的异常之后会到sesssion工厂中进行创建session
+        Session session = retrieveSessionFromDataSource(readKey);
+        if (session == null) {
+            throw new UnknownSessionException("There is no session with id [" + sessionId + "]");
+        }
+        return session;
     }
 
-    @Override
-    public void setSessionIdCookieEnabled(boolean sessionIdCookieEnabled) {
-        this.sessionIdCookieEnabled = sessionIdCookieEnabled;
-    }
+
 
     @Override
     public Serializable getSessionId(SessionKey key) {
@@ -71,11 +92,6 @@ public class AuthWebSessionManager extends DefaultWebSessionManager {
             id = getSessionId(request, response);
         }
         return id;
-    }
-
-    @Override
-    public void setGlobalSessionTimeout(long globalSessionTimeout) {
-        super.setGlobalSessionTimeout(globalSessionTimeout);
     }
 
     @Override
@@ -95,24 +111,6 @@ public class AuthWebSessionManager extends DefaultWebSessionManager {
         return id;
     }
 
-    @Override
-    protected Session retrieveSession(SessionKey sessionKey) throws UnknownSessionException {
-        Serializable sessionId = getSessionId(sessionKey);
-        if (sessionId == null) {
-            log.debug("Unable to resolve session ID from SessionKey [{}].  Returning null to indicate a " +
-                    "session could not be found.", sessionKey);
-            return null;
-        }
-        String readKey = sessionId.toString();
-            readKey = AuthConstants.SESSION_TYPE_COOKIE + ":" + readKey;
-        Session session = retrieveSessionFromDataSource(readKey);
-        if (session == null) {
-            throw new UnknownSessionException("There is no session with id [" + sessionId + "]");
-        }
-        return session;
-    }
-
-
     private String getSessionIdCookieValue(ServletRequest request, ServletResponse response) {
         if (!isSessionIdCookieEnabled()) {
             return null;
@@ -125,6 +123,29 @@ public class AuthWebSessionManager extends DefaultWebSessionManager {
     }
 
 
+
+
+
+
+
+
+
+
+    @Override
+    public boolean isSessionIdCookieEnabled() {
+        return sessionIdCookieEnabled;
+    }
+
+    @Override
+    public void setSessionIdCookieEnabled(boolean sessionIdCookieEnabled) {
+        this.sessionIdCookieEnabled = sessionIdCookieEnabled;
+    }
+
+
+    @Override
+    public void setGlobalSessionTimeout(long globalSessionTimeout) {
+        super.setGlobalSessionTimeout(globalSessionTimeout);
+    }
 
 
 }

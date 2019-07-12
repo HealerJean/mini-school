@@ -40,10 +40,14 @@ public class RedisSessionDao extends AbstractSessionDAO {
         super.setSessionIdGenerator(new UuidSessionIdGenerator());
     }
 
+    /**
+     * 对创建的sesion进行持久化
+     */
     @Override
     protected Serializable doCreate(Session session) {
         Serializable sessionId = session.getId();
         if(session == null || sessionId == null || StringUtils.isBlank(sessionId.toString())){
+            //UuidSessionIdGenerator 进行创建
             sessionId = generateSessionId(session);
 
         }
@@ -53,6 +57,20 @@ public class RedisSessionDao extends AbstractSessionDAO {
         return sessionId;
     }
 
+
+    /**
+     * SessionDAO中readSession实现; 通过sessionId从持久化设备获取session对象.
+     * 子类doReadSession方法的代理，具体的获取细节委托给了子类的doReadSession方法.
+     */
+    @Override
+    public Session readSession(Serializable sessionId) throws UnknownSessionException {
+        Session s = doReadSession(sessionId);
+        return s;
+    }
+
+    /**
+     * 根据会话ID获取会话。
+     */
     @Override
     protected Session doReadSession(Serializable sessionId) {
         //这里需要判断是否需要去做Token的验证
@@ -66,12 +84,11 @@ public class RedisSessionDao extends AbstractSessionDAO {
         return null;
     }
 
-    @Override
-    public Session readSession(Serializable sessionId) throws UnknownSessionException {
-        Session s = doReadSession(sessionId);
-        return s;
-    }
 
+    /**
+     * 更新session;
+     * 如更新session最后访问时间/停止会话/设置超时时间/设置移除属性等会调用。
+     */
     @Override
     public void update(Session session) throws UnknownSessionException {
         if(session == null || session.getId() == null){
@@ -98,6 +115,10 @@ public class RedisSessionDao extends AbstractSessionDAO {
         redisTemplate.opsForValue().set(sessionPrefix.toString(),session,expire,TimeUnit.SECONDS);
     }
 
+
+    /**
+     * 删除session; 当会话过期/会话停止（如用户退出时）会调用。
+     */
     @Override
     public void delete(Session session) {
         if(session == null || session.getId() == null){

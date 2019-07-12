@@ -47,7 +47,7 @@ public class UserController {
      */
     @PostMapping("user/login")
     public ResponseBean login(@RequestBody(required = false) UserDTO userDTO, HttpServletRequest request) {
-        log.info("用户管理--------用户登出--------参数信息信息：{}",userDTO);
+        log.info("用户管理--------登录--------参数信息信息：{}",userDTO);
 
         //1、判断用户名和密码是否正确
         UserDTO result = userService.queryUserInfo(userDTO);

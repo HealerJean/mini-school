@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author HealerJean
  * @version 1.0v
- * @Description
- * @ClassName ${NAME}
- * @date ${DATE}  ${TIME}.
+ * @Description shiro拦截下之后就不会进入了，因为是先进入的shiro
+ * @ClassName
+ * @date
  */
 @Component
 @Slf4j
@@ -24,8 +24,7 @@ public class UrlInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-
-            log.info("admin:请求地址:[{}];访问ip:[{}]", httpServletRequest.getRequestURL(), IpUtil.getIp(httpServletRequest));
+            log.info("请求地址:[{}];访问ip:[{}]", httpServletRequest.getRequestURL(), IpUtil.getIp(httpServletRequest));
         return  true;
 
     }

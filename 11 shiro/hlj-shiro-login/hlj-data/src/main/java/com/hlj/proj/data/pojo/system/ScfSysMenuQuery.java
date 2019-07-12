@@ -5,6 +5,8 @@
 import com.hlj.proj.data.common.query.PagingQuery;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author duyang
  * @ClassName: ScfSysMenuQuery
@@ -68,4 +70,6 @@ public class ScfSysMenuQuery extends PagingQuery {
 	 */
 	private Long refRoleId ;
 
+	/** 角色ID */
+	private List<Long> refRoleIds;
 }

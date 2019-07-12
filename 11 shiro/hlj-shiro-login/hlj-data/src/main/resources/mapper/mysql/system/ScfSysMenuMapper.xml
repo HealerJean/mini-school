@@ -500,20 +500,19 @@
 
 
 
-	<select id="selectByExampleToMenu" parameterType="ScfSysRefRoleMenuQuery" resultMap="ScfSysMenuMap">
+	<select id="selectByExampleToMenu"  parameterType="ScfSysMenuQuery"  resultMap="BaseResultMap">
 		select sm.*
-		from  scf_sys_menu sm
-		left join scf_sys_ref_role_menu rrm  on  rrm.ref_menu_id = sm.id
-		where  sm.status
-		<if test="refRoleIds != null and refRoleIds.size() > 0">
-			and rrm.ref_role_id in
-			<foreach collection="refRoleIds" index="index" item="item" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		</if>
+		from  scf_sys_menu sm where sm.id in (
+			select rrm.ref_menu_id from scf_sys_ref_role_menu rrm
+		where  sm.status = 10
+				and rrm.ref_role_id in
+				<foreach collection="refRoleIds" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+		)
 	</select>
 
-	<select id="selectMenusByRoleId" parameterType="BaseResultMap" resultMap="ScfSysMenuMap">
+	<select id="selectMenusByRoleId"  parameterType="ScfSysMenuQuery" resultMap="BaseResultMap">
 		SELECT m.* FROM scf_sys_menu m
 		LEFT JOIN scf_sys_ref_role_menu rm ON rm.ref_menu_id = m.id
 		where rm.ref_role_id = #{roleId}

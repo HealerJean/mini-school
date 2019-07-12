@@ -31,11 +31,16 @@ public class AuthenticationFilter extends FormAuthenticationFilter {
     }
 
     /**
-     *  1、没有登录状态下进入
+     * 是否拒绝访问：没有登录状态下进入
+     *  判断是否是登录Url请求
+     *  1、如果是登录请求返回true
+     *  2、如果不是登录请求，保存登录请求，并重定向到登录，返回false
+     *     2.1、创建Session，记录重定向的请求
+     *     2.2、重定向到登陆
      */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        log.info("=================登陆未授权===================");
+        log.info("shiro=================用户未登录===================");
         if (this.isLoginRequest(request, response)) {
                 return true;
         } else {
@@ -51,22 +56,9 @@ public class AuthenticationFilter extends FormAuthenticationFilter {
         this.redirectToLogin(request, response);
     }
 
-    /**
-     *  重定向到登陆
-     */
-    @Override
-    protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
-        String loginUrl = this.getLoginUrl();
-        if(StringUtils.isBlank(loginUrl)){
-            return ;
-        }
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        httpServletResponse.setStatus(ResponseEnum.未登录.code);
-    }
-
 
     /**
-     * 创建Session，记录重定向的地址
+     * 创建Session，记录重定向的请求
      * @param request
      */
     @Override
@@ -79,7 +71,24 @@ public class AuthenticationFilter extends FormAuthenticationFilter {
     }
 
     /**
-     * 判断是否是登陆的请求：
+     *  重定向到登陆
+     *  这里获取到的 loginUrl = login.jsp 不用理会
+     */
+    @Override
+    protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
+        String loginUrl = this.getLoginUrl();
+        if(StringUtils.isBlank(loginUrl)){
+            return ;
+        }
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        httpServletResponse.setStatus(ResponseEnum.未登录.code);
+    }
+
+
+
+
+    /**
+     * 判断是否是登陆的Url请求：
      * @param request
      * @param response
      * @return

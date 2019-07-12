@@ -1,13 +1,11 @@
 package com.hlj.proj.service.user.identity.impl;
 
+import com.hlj.proj.data.dao.mybatis.manager.system.ScfSysMenuManager;
 import com.hlj.proj.data.dao.mybatis.manager.system.ScfSysRefRoleMenuManager;
 import com.hlj.proj.data.dao.mybatis.manager.system.ScfSysRefUserRoleManager;
 import com.hlj.proj.data.dao.mybatis.manager.user.ScfUserInfoManager;
 import com.hlj.proj.data.dao.mybatis.manager.user.ScfUserRefUserDepartmentManager;
-import com.hlj.proj.data.pojo.system.ScfSysMenu;
-import com.hlj.proj.data.pojo.system.ScfSysRefRoleMenuQuery;
-import com.hlj.proj.data.pojo.system.ScfSysRefUserRoleQuery;
-import com.hlj.proj.data.pojo.system.ScfSysRole;
+import com.hlj.proj.data.pojo.system.*;
 import com.hlj.proj.data.pojo.user.ScfUserDepartment;
 import com.hlj.proj.data.pojo.user.ScfUserInfo;
 import com.hlj.proj.data.pojo.user.ScfUserRefUserDepartmentQuery;
@@ -43,7 +41,7 @@ public class IdentityServiceImpl implements IdentityService {
     @Autowired
     private ScfSysRefUserRoleManager scfSysRefUserRoleManager;
     @Autowired
-    private ScfSysRefRoleMenuManager scfSysRefRoleMenuManager;
+    private ScfSysMenuManager scfSysMenuManager ;
     /**
      * 根据用户ID获取当前登陆用户信息
      * 1、用户基本信息
@@ -91,9 +89,9 @@ public class IdentityServiceImpl implements IdentityService {
             }
             identityInfoDTO.setRoles(roleDTOS);
             //  4、获取所有角色所对应的所有菜单（这里的菜单指的是所有的url，包括前台菜单）
-            ScfSysRefRoleMenuQuery refRoleMenuQuery = new ScfSysRefRoleMenuQuery();
-            refRoleMenuQuery.setRefRoleIds(roles.stream().map(item -> item.getId()).collect(Collectors.toList()));
-            List<ScfSysMenu> menuList = scfSysRefRoleMenuManager.queryListToMenu(refRoleMenuQuery);
+            ScfSysMenuQuery scfSysMenuQuery = new ScfSysMenuQuery();
+            scfSysMenuQuery.setRefRoleIds(roles.stream().map(item -> item.getId()).collect(Collectors.toList()));
+            List<ScfSysMenu> menuList = scfSysMenuManager .queryListToMenu(scfSysMenuQuery);
 
             List<ScfSysMenu> menus = new ArrayList<>();
             List<ScfSysMenu> permissions = new ArrayList<>();
@@ -109,6 +107,8 @@ public class IdentityServiceImpl implements IdentityService {
             }
             //递归获取树形关系
             identityInfoDTO.setMenus(BeanUtils.menuListToDTOsTree(menus));
+
+            //讲权限集合转化为DTO集合
             identityInfoDTO.setPermissions(BeanUtils.menuListToDTOs(permissions));
         }
         return identityInfoDTO;

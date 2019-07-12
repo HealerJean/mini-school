@@ -45,7 +45,7 @@ public class AuthRealm extends AuthorizingRealm {
 
     /**
      * 解释： minixiao 的时候，是给他授予角色以及权限的，只会进入一次
-     * 验证权限时调用,页面验证多次权限的时候，就会进来多次
+     * 这里验证权限时调用,页面验证多次权限的时候，就会进来多次
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -80,21 +80,23 @@ public class AuthRealm extends AuthorizingRealm {
         //1、获取登录后需要的的基本信息（将来无需查询数据库直接获取）
         IdentityInfoDTO identityInfo = identityService.getUserInfo(token.getUserId());
         log.info("获取到IdentityInfo信息：{}", identityInfo);
+        //返回的用户身份信息
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo();
-        AuthPrincipalCollection principalCollection = new AuthPrincipalCollection();
 
         //2、shiro中放入用户权限
         List<MenuDTO> permissions = identityInfo.getPermissions();
+        List<MenuDTO> menus = identityInfo.getMenus();
         Set<UrlPermission> collect = new HashSet<>();
         if (permissions != null) {
             collect.addAll(permissions.stream()
                     .map(item -> new UrlPermission(item.getUrl(), item.getMethod())).collect(toSet()));
         }
+        AuthPrincipalCollection principalCollection = new AuthPrincipalCollection();
         principalCollection.add(collect, identityInfo.getRealName());
         authenticationInfo.setPrincipals(principalCollection);
         authenticationInfo.setCredentials(token.getUserId());
 
-        //3、用户信息存储到session中  （不存储菜单和权限，因为session中的用户是提供给我们后台自己使用的对象）
+        //3、用户信息存储到session中  （不存储菜单和权限，而是单独存放）
         //菜单放到了 session的另一个 name中，如下
         //权限交给了 shiro ，shiro控制是否有权限操作
         Subject subject = SecurityUtils.getSubject();
@@ -104,7 +106,6 @@ public class AuthRealm extends AuthorizingRealm {
         session.setAttribute(AuthConstants.AUTH_USER, identityInfo);
 
         // 4、前台展示的路由菜单menus，用户提供前台显示的菜单放到了session中
-        List<MenuDTO> menus = identityInfo.getMenus();
         session.setAttribute(AuthConstants.AUTH_MENU, menus);
 
         return authenticationInfo;

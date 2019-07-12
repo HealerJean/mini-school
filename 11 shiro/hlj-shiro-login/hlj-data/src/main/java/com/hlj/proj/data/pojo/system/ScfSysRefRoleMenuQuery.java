@@ -39,8 +39,7 @@ public class ScfSysRefRoleMenuQuery extends PagingQuery {
 	private Long updateUser;
 	/** 更新人名称 */
 	private String updateName;
-	/** 角色ID */
-	private List<Long> refRoleIds;
+
 	/** 计算总记录数 */
 	public int calcItemCount(Object t) {
 		return 0;

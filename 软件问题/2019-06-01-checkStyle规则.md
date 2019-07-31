@@ -32,7 +32,7 @@ https://raw.githubusercontent.com/HealerJean/HealerJean.github.io/master/blogIma
 
 
 
-![1560506516385](D:\study\HealerJean.github.io\blogImages\1560506516385.png)
+![1560506516385](https://raw.githubusercontent.com/HealerJean/HealerJean.github.io/master/blogImages/1560506516385.png)
 
 
 
@@ -42,11 +42,11 @@ https://raw.githubusercontent.com/HealerJean/HealerJean.github.io/master/blogIma
 
 
 
-![1560507113634](D:\study\HealerJean.github.io\blogImages\1560507113634.png)
+![1560507113634](https://raw.githubusercontent.com/HealerJean/HealerJean.github.io/master/blogImages/1560507113634.png)
 
 #### 1.2、扫描观察
 
-![1560507167206](D:\study\HealerJean.github.io\blogImages\1560507167206.png)
+![1560507167206](https://raw.githubusercontent.com/HealerJean/HealerJean.github.io/master/blogImages/1560507167206.png)
 
 
 
@@ -102,7 +102,7 @@ Minor/Trivial:即易用性及建议性问题。
 
 ### 2、checkstyle
 
-![1560507877211](D:\study\HealerJean.github.io\blogImages\1560507877211.png)
+![1560507877211](https://raw.githubusercontent.com/HealerJean/HealerJean.github.io/master/blogImages/1560507877211.png)
 
 
 
@@ -347,19 +347,19 @@ Minor/Trivial:即易用性及建议性问题。
 </module>
 ```
 
-![1560507955802](D:\study\HealerJean.github.io\blogImages\1560507955802.png)
+![1560507955802](https://raw.githubusercontent.com/HealerJean/HealerJean.github.io/master/blogImages/1560507955802.png)
 
 
 
 #### 2.1、扫描
 
-![1560507981350](D:\study\HealerJean.github.io\blogImages\1560507981350.png)
+![1560507981350](https://raw.githubusercontent.com/HealerJean/HealerJean.github.io/master/blogImages/1560507981350.png)
 
 
 
 #### 2.2、报错提示关闭  ->右下角 警察
 
-![1560508050162](D:\study\HealerJean.github.io\blogImages\1560508050162.png)
+![1560508050162](https://raw.githubusercontent.com/HealerJean/HealerJean.github.io/master/blogImages/1560508050162.png)
 
 
 

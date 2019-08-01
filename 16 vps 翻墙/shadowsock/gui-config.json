@@ -1,0 +1,19 @@
+{
+"configs" : [
+  {
+"server" : "138.128.223.133",
+"server_port" : 50505,
+"password" : "TYgy67^%43*&DKis",
+"method" : "aes-256-cfb",
+"remarks" : ""}
+
+],
+"strategy" : null,
+"index" : 0,
+"global" : false,
+"enabled" : true,
+"shareOverLan" : true,
+"isDefault" : false,
+"localPort" : 1080,
+"pacUrl" : null,
+"useOnlinePac" : false}

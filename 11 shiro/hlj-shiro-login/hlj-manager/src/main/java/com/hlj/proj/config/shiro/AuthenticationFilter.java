@@ -2,6 +2,7 @@ package com.hlj.proj.config.shiro;
 
 import com.hlj.proj.enums.ResponseEnum;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.HttpUrl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -83,6 +84,8 @@ public class AuthenticationFilter extends FormAuthenticationFilter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         httpServletResponse.setStatus(ResponseEnum.未登录.code);
     }
+
+
 
 
 

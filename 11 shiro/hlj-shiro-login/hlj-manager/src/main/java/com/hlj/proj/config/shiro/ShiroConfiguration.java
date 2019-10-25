@@ -61,7 +61,6 @@ public class ShiroConfiguration {
         AuthWebSessionManager sessionManager = new AuthWebSessionManager(authConfiguration);
         sessionManager.setSessionFactory(new AuthSessionFactory());
         sessionManager.setSessionDAO(new RedisSessionDao(applicationName , redisTemplate));
-
         securityManager.setSessionManager(sessionManager);
         return securityManager;
     }
